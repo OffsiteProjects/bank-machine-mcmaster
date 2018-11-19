@@ -8,15 +8,11 @@
 
 <script>
 export default {
-  data () {
-    return {
-      msg: 'Foo'
-    }
-  },
   mounted () {
-    setTimeout(() => { // TODO unmount
-      this.$router.push('/') // TODO history?
-    }, 1000)
+    let listener = window.addEventListener('click', () => {
+      window.removeEventListener('click', listener)
+      this.$router.push('/') 
+    })
   }
 }
 </script>

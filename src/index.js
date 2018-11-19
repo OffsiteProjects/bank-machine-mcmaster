@@ -3,14 +3,17 @@ const VueRouter = require('vue-router')
 
 Vue.use(VueRouter)
 
-const Home = require('./views/home.vue')
+const Nav = require('./views/nav.vue')
+const FakeCard = require('./views/login/fake-card.vue')
+const Pin = require('./views/login/pin.vue')
+const MainMenu = require('./views/main-menu.vue')
+
 const Logout = require('./views/logout.vue')
-const Foo = require('./views/foo.vue')
-const Bar = require('./views/bar.vue')
 
 const routes = [
-  { path: '/foo', component: Foo },
-  { path: '/bar', component: Bar },
+  { path: '/', component: FakeCard },
+  { path: '/pin', component: Pin },
+  { path: '/main-menu', component: MainMenu },
   { path: '/logout', component: Logout }
 ]
 const router = new VueRouter({
@@ -19,6 +22,6 @@ const router = new VueRouter({
 const app = new Vue({
   router,
   render: (h) => {
-    return h(Home)
+    return h(Nav)
   }
 }).$mount('#app')
