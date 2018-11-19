@@ -17,6 +17,7 @@
     margin: 0px;
     font-size: 36px;
     text-align: right; 
+    pointer-events: none;
   }
 </style>
 

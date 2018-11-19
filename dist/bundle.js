@@ -10936,7 +10936,7 @@ exports.insert = function (css) {
 }
 
 },{}],5:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".numpad {\n  width: 300px;\n  padding: 0px;\n}\n.numpad .btn {\n  width: 100px;\n  height: 100px;\n  border-radius: 0;\n  border: solid black 1px;\n  box-shadow: none !important;\n  font-size: 36px;\n}\n.numpad input {\n  width: 300px;\n  height: 60px;\n  margin: 0px;\n  font-size: 36px;\n  text-align: right; \n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".numpad {\n  width: 300px;\n  padding: 0px;\n}\n.numpad .btn {\n  width: 100px;\n  height: 100px;\n  border-radius: 0;\n  border: solid black 1px;\n  box-shadow: none !important;\n  font-size: 36px;\n}\n.numpad input {\n  width: 300px;\n  height: 60px;\n  margin: 0px;\n  font-size: 36px;\n  text-align: right; \n  pointer-events: none;\n}")
 ;(function(){
 'use strict';
 
