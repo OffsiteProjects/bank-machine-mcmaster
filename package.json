@@ -1,0 +1,30 @@
+{
+  "name": "bank-machine-mcmaster",
+  "version": "1.0.0",
+  "description": "McMaster bank machine UI school project.",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify src/index.js -t vueify -s BankMachine -o dist/bundle.js",
+    "watch": "watchify src/index.js -t vueify -s BankMachine -o dist/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OffsiteProjects/bank-machine-mcmaster.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OffsiteProjects/bank-machine-mcmaster/issues"
+  },
+  "homepage": "https://github.com/OffsiteProjects/bank-machine-mcmaster#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "browserify-css": "^0.14.0",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.17",
+    "vueify": "^9.4.1"
+  }
+}
