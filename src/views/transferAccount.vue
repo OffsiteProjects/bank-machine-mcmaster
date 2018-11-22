@@ -5,9 +5,9 @@
 </style>
 
 <template><div>
-  <h1 class="red">Input New Pin</h1>
-  <router-link tag="button" to="/confirmNewPin" class="btn">CheckMark</router-link>
-  </div>
+  <h1 class="red">Select Account</h1>
+  <router-link tag="button" to="/transferAmount" class="btn">CheckMark</router-link>
+    </div>
 </template>
 
 <script>

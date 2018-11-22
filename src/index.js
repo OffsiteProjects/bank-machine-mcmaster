@@ -20,6 +20,14 @@ const insertCash = require('./views/insertCash.vue')
 const Logout = require('./views/logout.vue')
 const receipt = require('./views/receipt.vue')
 const prettyReceipt = require('./views/prettyReceipt.vue')
+const etransfer = require('./views/etransfer.vue')
+const transferAccount = require('./views/transferAccount.vue')
+const etransferAmount = require('./views/etransferAmount.vue')
+const verifyEtransfer = require('./views/verifyEtransfer.vue')
+const transferAmount = require('./views/transferAmount.vue')
+const verifyTransfer = require('./views/verifyTransfer.vue')
+const confirmNewPin = require('./views/confirmNewPin.vue')
+const AccountHistory = require('./views/accountHistory.vue')
 
 const routes = [
   { path: '/', component: FakeCard },
@@ -37,7 +45,15 @@ const routes = [
   { path: '/verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', component: insertCash},
   { path: '/receipt', component: receipt},
-  { path: '/prettyReceipt', component: prettyReceipt}
+  { path: '/prettyReceipt', component: prettyReceipt},
+  { path: '/etransfer', component: etransfer},
+  { path: '/transferAccount', component: transferAccount},
+  { path: '/etransferAmount', component: etransferAmount},
+  { path: '/verifyEtransfer', component: verifyEtransfer},
+  { path: '/transferAmount', component: transferAmount},
+  { path: '/verifyTransfer', component: verifyTransfer},
+  { path: '/confirmNewPin', component: confirmNewPin},
+  { path: '/accountHistory', component: AccountHistory}
 ]
 const router = new VueRouter({
   routes // short for `routes: routes`
