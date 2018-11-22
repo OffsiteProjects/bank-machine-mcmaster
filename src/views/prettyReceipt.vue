@@ -4,8 +4,9 @@
   }
 </style>
 
-<template>
-  <h1 class="red">{{msg}}</h1>
+<template><div>
+   This is a receipt
+  </div>
 </template>
 
 <script>

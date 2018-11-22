@@ -7,7 +7,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
   mounted () {
     const self = this
     function route () {

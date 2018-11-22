@@ -8,7 +8,7 @@
   <div>
     <div class="row text-center">
       <div class="col-sm">
-        <h2>Please enter your card</h2>
+        <h2>Insert Cash</h2>
       </div>
     </div>
     <div class="row text-center">
@@ -22,12 +22,10 @@
 <script>
 module.exports = {
   mounted () {
-    const self = this
-    function route () {
-      window.removeEventListener('click', route)
-      self.$router.push('/pin') 
-    }
-    window.addEventListener('click', route)
+    let listener = window.addEventListener('click', () => {
+      window.removeEventListener('click', listener)
+      this.$router.push('/verifyDeposit') 
+    })
   }
 }
 </script>
