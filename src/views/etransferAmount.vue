@@ -4,8 +4,10 @@
   }
 </style>
 
-<template>
-  <h1 class="red">{{msg}}</h1>
+<template><div>
+  <h1 class="red">How Much</h1>
+   <router-link tag="button" to="/verifyEtransfer" class="btn">CheckMark</router-link>
+  </div>
 </template>
 
 <script>

@@ -4,8 +4,10 @@
   }
 </style>
 
-<template>
-  <h1 class="red">{{msg}}</h1>
+<template><div>
+  <h1 class="red">Comfirm New Pin</h1>
+  <router-link tag="button" to="/success" class="btn">Confirm</router-link>
+  </div>
 </template>
 
 <script>

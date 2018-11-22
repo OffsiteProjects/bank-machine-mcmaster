@@ -36,7 +36,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
   data () {
     return {
       noBackRoutes: ["/", "/logout", "/pin"],
