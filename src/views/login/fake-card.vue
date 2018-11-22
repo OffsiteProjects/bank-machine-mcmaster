@@ -22,10 +22,12 @@
 <script>
 module.exports = {
   mounted () {
-    let listener = window.addEventListener('click', () => {
-      window.removeEventListener('click', listener)
-      this.$router.push('/pin') 
-    })
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      self.$router.push('/pin') 
+    }
+    window.addEventListener('click', route)
   }
 }
 </script>
