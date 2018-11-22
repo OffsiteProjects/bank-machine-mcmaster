@@ -27,7 +27,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-          <router-link to="/logout" v-if="user" class="btn btn-danger physical-btn" tag="button">Logout</router-link>
+          <router-link to="/logout" v-if="isLoggedIn" class="btn btn-danger physical-btn" tag="button">Logout</router-link>
         </li>
       </ul>
     </div>
@@ -41,12 +41,14 @@ export default {
     return {
       noBackRoutes: ["/", "/logout", "/pin"],
       isHome: this.$router.currentRoute.path == "/",
-      user: null
+      isLoggedIn: false
     }
   },
   watch: {
     '$route' (to, from) {
       this.isHome = this.noBackRoutes.indexOf(to.path) !== -1
+      if (to.path == '/logout') this.isLoggedIn = false
+      if (to.path == '/main-menu') this.isLoggedIn = true
     }
   },
   methods: {

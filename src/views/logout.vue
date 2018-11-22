@@ -9,10 +9,12 @@
 <script>
 export default {
   mounted () {
-    let listener = window.addEventListener('click', () => {
-      window.removeEventListener('click', listener)
-      this.$router.push('/') 
-    })
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      self.$router.push('/') 
+    }
+    window.addEventListener('click', route)
   }
 }
 </script>
