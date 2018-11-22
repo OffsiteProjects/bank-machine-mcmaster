@@ -7,7 +7,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
   mounted () {
     let listener = window.addEventListener('click', () => {
       window.removeEventListener('click', listener)

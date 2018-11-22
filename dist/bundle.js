@@ -1,4 +1,269 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.BankMachine = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.BankMachine = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],2:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":1,"timers":2}],3:[function(require,module,exports){
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -243,7 +508,7 @@ exports.reload = tryWrap(function (id, options) {
   })
 })
 
-},{}],2:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 (function (process){
 /**
   * vue-router v3.0.1
@@ -2872,8 +3137,8 @@ if (inBrowser && window.Vue) {
 module.exports = VueRouter;
 
 }).call(this,require('_process'))
-},{"_process":12}],3:[function(require,module,exports){
-(function (process,global){
+},{"_process":1}],5:[function(require,module,exports){
+(function (process,global,setImmediate){
 /*!
  * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
@@ -10909,8 +11174,8 @@ if (inBrowser) {
 
 module.exports = Vue;
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":12}],4:[function(require,module,exports){
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+},{"_process":1,"timers":2}],6:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 function noop () {}
@@ -10935,46 +11200,77 @@ exports.insert = function (css) {
   }
 }
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".numpad {\n  width: 320px;\n  padding: 0px;\n}\n.numpad .btn {\n  width: 100px;\n  height: 100px;\n  font-size: 36px;\n  margin: 10px;\n}\n.numpad input {\n  width: 320px;\n  height: 60px;\n  margin: 0px;\n  font-size: 36px;\n  text-align: right; \n  pointer-events: none;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  data: function data() {
+module.exports = {
+  data () {
     return {
-      rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['<', 0, 'X']],
+      rows: [[1,2,3], [4,5,6], [7,8,9], ['<', 0, 'X']],
       input: ''
-    };
+    }
   },
-
   props: ['pin-format'],
   methods: {
-    formatCents: function formatCents(cents) {
-      if (this.pinFormat) return new Array(cents.length).fill('•').join('');
+    formatCents (cents) {
+      if (this.pinFormat) return (new Array(cents.length)).fill('•').join('')
       if (cents.length === 0) {
-        return '0.00';
-      }if (cents.length <= 2) {
-        return '0.00'.slice(0, -cents.length) + cents;
+        return '0.00'
+      } if (cents.length <= 2) {
+        return '0.00'.slice(0,-cents.length) + cents
       } else {
         return (cents / 100).toFixed(2);
       }
     },
-    press: function press(el) {
+    press (el) {
       if (el === '<') {
-        this.input = this.input.slice(1);
+        this.input = this.input.slice(1)
       } else if (el === 'X') {
-        this.input = '';
+        this.input = ''
       } else {
-        if (this.pinFormat && this.input.length >= 4) return;
-        this.input = el + this.input;
+        if (this.pinFormat && this.input.length >= 4) return
+        this.input = el + this.input
       }
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -10987,12 +11283,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-dcae3fec", __vue__options__)
+    hotAPI.createRecord("data-v-d30d1b8a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-dcae3fec", __vue__options__)
+    hotAPI.reload("data-v-d30d1b8a", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
 const Vue = require('vue')
 const VueRouter = require('vue-router')
 
@@ -11002,14 +11298,37 @@ const Nav = require('./views/nav.vue')
 const FakeCard = require('./views/login/fake-card.vue')
 const Pin = require('./views/login/pin.vue')
 const MainMenu = require('./views/main-menu.vue')
-
+const withdrawDeposit = require('./views/withdrawDeposit.vue')
+const moveMoney = require('./views/moveMoney.vue')
+const changePin = require('./views/changePin.vue')
+const history = require('./views/history.vue')
+const withdraw = require('./views/withdraw.vue')
+const deposit = require('./views/deposit.vue')
+const verifyWithdraw = require('./views/verifyWithdraw.vue')
+const success = require('./views/success.vue')
+const verifyDeposit = require('./views/verifyDeposit.vue')
+const insertCash = require('./views/insertCash.vue')
 const Logout = require('./views/logout.vue')
+const receipt = require('./views/receipt.vue')
+const prettyReceipt = require('./views/prettyReceipt.vue')
 
 const routes = [
   { path: '/', component: FakeCard },
   { path: '/pin', component: Pin },
   { path: '/main-menu', component: MainMenu },
-  { path: '/logout', component: Logout }
+  { path: '/logout', component: Logout },
+  { path: '/withdrawDeposit', component: withdrawDeposit },
+  { path: '/moveMoney', component: moveMoney },
+  { path: '/changePin', component: changePin},
+  { path: '/history', component: history},
+  { path: '/withdraw', component: withdraw},
+  { path: '/deposit', component: deposit},
+  { path: '/verifyWithdraw', component: verifyWithdraw},
+  { path: '/success', component: success},
+  { path: '/verifyDeposit', component: verifyDeposit},
+  { path: '/insertCash', component: insertCash},
+  { path: '/receipt', component: receipt},
+  { path: '/prettyReceipt', component: prettyReceipt}
 ]
 const router = new VueRouter({
   routes // short for `routes: routes`
@@ -11021,24 +11340,183 @@ const app = new Vue({
   }
 }).$mount('#app')
 
-},{"./views/login/fake-card.vue":7,"./views/login/pin.vue":8,"./views/logout.vue":9,"./views/main-menu.vue":10,"./views/nav.vue":11,"vue":3,"vue-router":2}],7:[function(require,module,exports){
+},{"./views/changePin.vue":9,"./views/deposit.vue":10,"./views/history.vue":11,"./views/insertCash.vue":12,"./views/login/fake-card.vue":13,"./views/login/pin.vue":14,"./views/logout.vue":15,"./views/main-menu.vue":16,"./views/moveMoney.vue":17,"./views/nav.vue":18,"./views/prettyReceipt.vue":19,"./views/receipt.vue":20,"./views/success.vue":21,"./views/verifyDeposit.vue":22,"./views/verifyWithdraw.vue":23,"./views/withdraw.vue":24,"./views/withdrawDeposit.vue":25,"vue":5,"vue-router":4}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  mounted: function mounted() {
-    var _this = this;
-
-    var listener = window.addEventListener('click', function () {
-      window.removeEventListener('click', listener);
-      _this.$router.push('/pin');
-    });
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
   }
-};
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1822a93f", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-1822a93f", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/insertCash"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-13825418", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-13825418", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3877370e", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-3877370e", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3}],12:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  mounted () {
+    let listener = window.addEventListener('click', () => {
+      window.removeEventListener('click', listener)
+      this.$router.push('/verifyDeposit') 
+    })
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h2',[_vm._v("Insert Cash")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/card.jpeg"}})])])])}]
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6a0ccd02", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-6a0ccd02", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  mounted () {
+    let listener = window.addEventListener('click', () => {
+      window.removeEventListener('click', listener)
+      this.$router.push('/pin') 
+    })
+  }
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11051,35 +11529,58 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-28ee7de5", __vue__options__)
+    hotAPI.createRecord("data-v-1c93fc62", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-28ee7de5", __vue__options__)
+    hotAPI.reload("data-v-1c93fc62", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],8:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".submit-btn {\n  position: absolute;\n  top: 35%;\n  left: 30px;\n  width: 100px;\n  height: 100px;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-
-var NumPad = require('./../../components/numpad.vue');
-exports.default = {
+const NumPad = require('./../../components/numpad.vue')
+module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      var pin = this.$refs.pad.input.split('').reverse();
-      var correctPin = ['1', '2', '3', '4'];
+    submit () {
+      const pin = this.$refs.pad.input.split('').reverse()
+      const correctPin = ['1', '2', '3', '4'] // lmao
 
-      this.$router.push('/main-menu');
+      this.$router.push('/main-menu') 
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11092,28 +11593,31 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b391f39c", __vue__options__)
+    hotAPI.createRecord("data-v-6c42419c", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-b391f39c", __vue__options__)
+    hotAPI.reload("data-v-6c42419c", __vue__options__)
   }
 })()}
-},{"./../../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],9:[function(require,module,exports){
+},{"./../../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  mounted: function mounted() {
-    var _this = this;
-
-    var listener = window.addEventListener('click', function () {
-      window.removeEventListener('click', listener);
-      _this.$router.push('/');
-    });
+module.exports = {
+  mounted () {
+    let listener = window.addEventListener('click', () => {
+      window.removeEventListener('click', listener)
+      this.$router.push('/') 
+    })
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11125,25 +11629,40 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0c8db9d7", __vue__options__)
+    hotAPI.createRecord("data-v-9c63b600", __vue__options__)
   } else {
-    hotAPI.reload("data-v-0c8db9d7", __vue__options__)
+    hotAPI.reload("data-v-9c63b600", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1}],10:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],16:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {};
+module.exports = {
+
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\n  Main menu\n")])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticStyle:{"color":"blue"}},[_vm._v("Main menu")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/withdrawDeposit"}},[_vm._v("Withdraw/Deposit Money")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/moveMoney"}},[_vm._v("Move Money")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/changePin"}},[_vm._v("Change Pin")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/history"}},[_vm._v("Transaction History")])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11151,39 +11670,113 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5e6a9f36", __vue__options__)
+    hotAPI.createRecord("data-v-3c3e1126", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5e6a9f36", __vue__options__)
+    hotAPI.reload("data-v-3c3e1126", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],11:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6be52be9", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-6be52be9", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".navbar {\n  padding: 20px;\n  height: 100px;\n  background: blue;\n}\n.nav .btn {\n  font-size: 24px;\n  padding: 10px 20px 10px 20px;\n}\n\n.logo {\n  color: white;\n}")
 ;(function(){
-"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  data: function data() {
+module.exports = {
+  data () {
     return {
       noBackRoutes: ["/", "/logout", "/pin"],
       isHome: this.$router.currentRoute.path == "/",
       user: null
-    };
+    }
   },
-
   watch: {
-    '$route': function $route(to, from) {
-      this.isHome = this.noBackRoutes.indexOf(to.path) !== -1;
+    '$route' (to, from) {
+      this.isHome = this.noBackRoutes.indexOf(to.path) !== -1
     }
   },
   methods: {
-    goBack: function goBack() {
-      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11196,196 +11789,300 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2b8bcfa6", __vue__options__)
+    hotAPI.createRecord("data-v-3bda5d1d", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-2b8bcfa6", __vue__options__)
+    hotAPI.reload("data-v-3bda5d1d", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],12:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],19:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
     }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
+  }
 }
 
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   This is a receipt\r\n  ")])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6d5ddadc", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-6d5ddadc", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],20:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
     }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
+  }
 }
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   Would you like a receipt\r\n    "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/prettyReceipt"}},[_vm._v("Yes")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/"}},[_vm._v("No")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c69b5a9c", __vue__options__)
+  } else {
+    hotAPI.rerender("data-v-c69b5a9c", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],21:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
 }
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
 
-function noop() {}
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   Anymore Transactions\r\n   "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-50397a06", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-50397a06", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],22:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
 
-process.listeners = function (name) { return [] }
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/success"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-24332c5f", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-24332c5f", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],23:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
 
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/success"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-96cce8ce", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-96cce8ce", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],24:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-},{}]},{},[6])(6)
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/verifyWithdraw"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a1a14a00", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-a1a14a00", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],25:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/withdraw"}},[_vm._v("Withdraw")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/deposit"}},[_vm._v("Deposit")])],1)}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1b98f6a4", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-1b98f6a4", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}]},{},[8])(8)
 });

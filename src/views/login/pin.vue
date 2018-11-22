@@ -28,7 +28,7 @@
 
 <script>
 const NumPad = require('./../../components/numpad.vue')
-export default {
+module.exports = {
   components: {
     NumPad
   },
