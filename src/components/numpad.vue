@@ -61,12 +61,12 @@ module.exports = {
     },
     press (el) {
       if (el === '<') {
-        this.input = this.input.slice(1)
+        this.input = this.input.slice(0,this.input.length-1)//(1)
       } else if (el === 'X') {
         this.input = ''
       } else {
-        if (this.pinFormat && this.input.length >= 4) return
-        this.input = el + this.input
+        if (this.pinFormat==='true' && this.input.length >= 4) return
+        this.input = this.input + el //switch order
       }
     }
   }
