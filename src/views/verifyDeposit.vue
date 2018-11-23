@@ -37,7 +37,7 @@ module.exports = {
   },
   data () {
     return {
-      msg: 'Foo'
+      msg: 'Are you sure?'
     }
   }
 }

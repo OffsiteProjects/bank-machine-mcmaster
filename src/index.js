@@ -53,8 +53,8 @@ const routes = [
   { path: '/transferAccount', component: transferAccount},
   { path: '/etransferAmount', name: 'etransferAmount', component: etransferAmount},
   { path: '/verifyEtransfer', name: 'verifyEtransfer', component: verifyEtransfer},
-  { path: '/transferAmount', component: transferAmount},
-  { path: '/verifyTransfer', component: verifyTransfer},
+  { path: '/transferAmount', name: 'transferAmount', component: transferAmount},
+  { path: '/verifyTransfer', name: 'verifyTransfer', component: verifyTransfer},
   { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
   { path: '/accountHistory', component: AccountHistory}
 ]

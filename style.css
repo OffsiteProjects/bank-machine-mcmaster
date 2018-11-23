@@ -52,7 +52,7 @@ h1{
   margin: auto;
 }
 
-.accountBox{
+.accountBox, .accountBox1{
   border: 1px solid black;
   margin: 2% 10%;
   width: 80%;
@@ -66,4 +66,10 @@ h1{
   height: 100px;
   margin: auto;
   padding: 0;
+}
+
+.selectionBox{
+  border: 1px solid black;
+  padding: 2% 0%;
+  margin: 1%;
 }
