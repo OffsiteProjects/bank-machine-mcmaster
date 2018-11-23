@@ -11348,8 +11348,8 @@ const routes = [
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
   { path: '/transferAccount', component: transferAccount},
-  { path: '/etransferAmount', component: etransferAmount},
-  { path: '/verifyEtransfer', component: verifyEtransfer},
+  { path: '/etransferAmount', name: 'etransferAmount', component: etransferAmount},
+  { path: '/verifyEtransfer', name: 'verifyEtransfer', component: verifyEtransfer},
   { path: '/transferAmount', component: transferAmount},
   { path: '/verifyTransfer', component: verifyTransfer},
   { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
@@ -11587,7 +11587,6 @@ var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      alert(currentBox)
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
@@ -11650,11 +11649,40 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/etransferAmount') 
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'etransferAmount', params: { payTo: savedValue }}) 
+      }
+      
+    },
+    selectBox: function (event) {
+      if (event) {
+        var all = document.getElementsByClassName("accountBox");
+        var i;
+        for (i = 0; i < all.length; i++) {
+            all[i].style.backgroundColor = '#bfbfbf';
+        }
+        
+        event.target.style.backgroundColor = '#00bfff';
+        currentBox=event.target.innerHTML;
+      }
+
     }
   },
   data () {
@@ -11668,7 +11696,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select a recipient")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select a recipient")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Phillip Pavlich")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Josh Mitchell")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Erin Varey")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Thomas Mullen")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11698,11 +11726,21 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
 
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
+  components: {
+    NumPad
+  },
   methods: {
     submit () {
-      this.$router.push('/verifyEtransfer') 
+      this.$router.push({name: 'verifyEtransfer', params: { amount: this.$refs.pad.input, payTo: this.$route.params.payTo }}) 
+      
     }
   },
   data () {
@@ -11716,7 +11754,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("How Much")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("How Much")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11729,7 +11767,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-0738fed6", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12477,6 +12515,15 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   methods: {
@@ -12486,7 +12533,7 @@ module.exports = {
   },
   data () {
     return {
-      msg: 'Foo'
+      msg: 'Are you sure?'
     }
   }
 }
@@ -12495,7 +12542,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("E-Transfer "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" to "+_vm._s(this.$route.params.payTo)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12656,7 +12703,6 @@ var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      alert(currentBox)
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
