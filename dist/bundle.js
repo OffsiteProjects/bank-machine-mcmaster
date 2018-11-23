@@ -11343,7 +11343,7 @@ const routes = [
   { path: '/verifyEtransfer', component: verifyEtransfer},
   { path: '/transferAmount', component: transferAmount},
   { path: '/verifyTransfer', component: verifyTransfer},
-  { path: '/confirmNewPin', component: confirmNewPin},
+  { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
   { path: '/accountHistory', component: AccountHistory}
 ]
 const router = new VueRouter({
@@ -11431,9 +11431,7 @@ module.exports = {
   methods: {
     submit () {
       const pin = this.$refs.pad.input.split('').reverse()
-      const correctPin = ['1', '2', '3', '4'] // lmao
-
-      this.$router.push('/confirmNewPin') 
+      this.$router.push({name: 'confirmNewPin', params: { newPin: pin }}) 
     }
   },
   data () {
@@ -11484,17 +11482,43 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 
+
 const NumPad = require('./../components/numpad.vue')
+
 module.exports = {
   components: {
     NumPad
   },
   methods: {
     submit () {
+      
       const pin = this.$refs.pad.input.split('').reverse()
-      const correctPin = ['1', '2', '3', '4'] // lmao
-      alert("Your pin has been successfully changed!");
-      this.$router.push('/success') 
+      
+      var checker=true;
+      
+      alert('test');
+      if(this.$route.params.newPin.length !== pin.length){
+        checker=false;
+      }
+      else{
+        var i;
+        for(i=0; i<this.$route.params.newPin.length; i++ ){
+          if(this.$route.params.newPin[i] !== pin[i]){
+            checker=false;
+          }
+        }     
+      }
+
+      alert(checker);
+      if(checker){
+        alert("Your pin has been successfully changed!");
+        this.$router.push('/success') 
+      }
+      else{
+        alert("The pin that you entered did not match! You are being redirected to the main menu.");
+        this.$router.push('/main-menu') 
+      }
+
     }
   },
   data () {
@@ -11503,6 +11527,8 @@ module.exports = {
     }
   }
 }
+
+
 
 })()
 if (module.exports.__esModule) module.exports = module.exports.default

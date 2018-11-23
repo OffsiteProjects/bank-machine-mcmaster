@@ -52,7 +52,7 @@ const routes = [
   { path: '/verifyEtransfer', component: verifyEtransfer},
   { path: '/transferAmount', component: transferAmount},
   { path: '/verifyTransfer', component: verifyTransfer},
-  { path: '/confirmNewPin', component: confirmNewPin},
+  { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
   { path: '/accountHistory', component: AccountHistory}
 ]
 const router = new VueRouter({

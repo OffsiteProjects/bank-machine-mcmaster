@@ -29,9 +29,7 @@ module.exports = {
   methods: {
     submit () {
       const pin = this.$refs.pad.input.split('').reverse()
-      const correctPin = ['1', '2', '3', '4'] // lmao
-
-      this.$router.push('/confirmNewPin') 
+      this.$router.push({name: 'confirmNewPin', params: { newPin: pin }}) 
     }
   },
   data () {
