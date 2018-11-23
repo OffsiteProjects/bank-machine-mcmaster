@@ -6,12 +6,17 @@
 
 <template><div>
   <h1 class="red">Select Account</h1>
-  <router-link tag="button" to="/transferAmount" class="btn">CheckMark</router-link>
+  <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
     </div>
 </template>
 
 <script>
 module.exports = {
+  methods: {
+    submit () {
+      this.$router.push('/transferAmount') 
+    }
+  },
   data () {
     return {
       msg: 'Foo'

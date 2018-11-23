@@ -42,6 +42,7 @@ h1{
   text-align: center;
   font-size: 60px;
   margin: 2% auto;
+  clear: right;
 }
 .confirm{
   text-align: center;
