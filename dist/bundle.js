@@ -11249,12 +11249,20 @@ module.exports = {
   props: ['pin-format'],
   methods: {
     formatCents (cents) {
-      if (this.pinFormat) return (new Array(cents.length)).fill('•').join('')
-      if (cents.length === 0) {
+      alert(typeof this.pinFormat);
+      if (this.pinFormat==='true'){
+        alert(typeof this.pinFormat);
+        return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (cents.length === 0) {
         return '0.00'
-      } if (cents.length <= 2) {
+      } 
+
+      else if (cents.length <= 2) {
         return '0.00'.slice(0,-cents.length) + cents
-      } else {
+      } 
+
+      else {
         return (cents / 100).toFixed(2);
       }
     },
@@ -12542,8 +12550,19 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
+  components: {
+    NumPad
+  },
   methods: {
     submit () {
       this.$router.push('/success') 
@@ -12551,7 +12570,7 @@ module.exports = {
   },
   data () {
     return {
-      msg: 'Foo'
+      msg: 'How Much Would You Like to Withdraw?'
     }
   }
 }
@@ -12560,7 +12579,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12573,7 +12592,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //

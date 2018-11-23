@@ -44,12 +44,18 @@ module.exports = {
   props: ['pin-format'],
   methods: {
     formatCents (cents) {
-      if (this.pinFormat) return (new Array(cents.length)).fill('•').join('')
-      if (cents.length === 0) {
+      if (this.pinFormat==='true'){
+        return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (cents.length === 0) {
         return '0.00'
-      } if (cents.length <= 2) {
+      } 
+
+      else if (cents.length <= 2) {
         return '0.00'.slice(0,-cents.length) + cents
-      } else {
+      } 
+
+      else {
         return (cents / 100).toFixed(2);
       }
     },
