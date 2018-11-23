@@ -3,7 +3,6 @@
     color: red;
   }
   h2{
-    text-align: left;
     margin-left: 4%;
   }
 </style>
@@ -12,7 +11,7 @@
   <div>
     <h1 class="red">Select Accounts</h1>
     
-    <h2>From: </h2>
+    <h2 class="leftAlign">From: </h2>
 
     <div class="selectionBox">
       <button v-on:click="selectBox1" class="physical-btn accountBox1">Chequing Account - 123456 - $48.99</button>
@@ -24,7 +23,7 @@
       <button v-on:click="selectBox1" class="physical-btn accountBox1">TFSA - 981121 - $74,736.02</button>
     </div>
 
-    <h2>To: </h2>
+    <h2 class="leftAlign">To: </h2>
     <div class="selectionBox">
       <button v-on:click="selectBox" class="physical-btn accountBox">Chequing Account - 123456 - $48.99</button>
 

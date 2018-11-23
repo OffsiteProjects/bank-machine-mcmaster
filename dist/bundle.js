@@ -11340,7 +11340,7 @@ const routes = [
   { path: '/withdraw', component: withdraw},
   { path: '/deposit', component: deposit},
   { path: '/verifyWithdraw', name: 'verifyWithdraw', component: verifyWithdraw},
-  { path: '/success', component: success},
+  { path: '/success', name: 'success', component: success},
   { path: '/verifyDeposit', name: 'verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', name: 'insertCash', component: insertCash},
   { path: '/withdrawCash', name: 'withdrawCash', component: withdrawCash},
@@ -12113,7 +12113,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   data () {
     return {
-      msg: 'Foo'
+      msg: 'How would you like to transfer money?'
     }
   }
 }
@@ -12286,7 +12286,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   Would you like a receipt\r\n    "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/prettyReceipt"}},[_vm._v("Yes")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/"}},[_vm._v("No")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   Would you like a receipt?\r\n    "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/prettyReceipt"}},[_vm._v("Yes")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/"}},[_vm._v("No")])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12315,6 +12315,10 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = {
   data () {
@@ -12328,7 +12332,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\r\n   Anymore Transactions\r\n   "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('p',[_vm._v("What should be displayed on this page? Type of transaction, amount, balance")]),_vm._v(" "),_c('p',[_vm._v("\"Type of Transaction\" was successful! Final Account Balance?")]),_vm._v("\n   Anymore Transactions\n   "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12342,9 +12346,8 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],26:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  text-align: left;\n  margin-left: 4%;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  margin-left: 4%;\n}")
 ;(function(){
-//
 //
 //
 //
@@ -12444,7 +12447,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Accounts")]),_vm._v(" "),_c('h2',[_vm._v("From: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('h2',[_vm._v("To: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Accounts")]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("From: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("To: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

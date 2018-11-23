@@ -5,7 +5,7 @@
 </style>
 
 <template><div>
-   Would you like a receipt
+   Would you like a receipt?
     <router-link tag="button" to="/prettyReceipt" class="btn">Yes</router-link>
    <router-link tag="button" to="/" class="btn">No</router-link>
   </div>

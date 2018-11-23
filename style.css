@@ -73,3 +73,7 @@ h1{
   padding: 2% 0%;
   margin: 1%;
 }
+
+.leftAlign{
+    text-align: left;
+  }
