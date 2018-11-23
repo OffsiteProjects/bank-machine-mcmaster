@@ -31,6 +31,7 @@ const AccountHistory = require('./views/accountHistory.vue')
 
 const routes = [
   { path: '/', component: FakeCard },
+  { path: '/#/', component: FakeCard },
   { path: '/pin', component: Pin },
   { path: '/main-menu', component: MainMenu },
   { path: '/logout', component: Logout },

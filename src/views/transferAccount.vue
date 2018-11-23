@@ -6,7 +6,9 @@
 
 <template><div>
   <h1 class="red">Select Account</h1>
-  <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
+  <div class="buttonBox">
+      <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
+    </div>
     </div>
 </template>
 

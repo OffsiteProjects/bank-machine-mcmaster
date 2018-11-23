@@ -4,9 +4,12 @@
   }
 </style>
 
-<template><div>
-  <h1 class="red">{{msg}}</h1>
-   <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
+<template>
+  <div>
+    <h1 class="red">{{msg}}</h1>
+    <div class="buttonBox">
+      <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
+    </div>
   </div>
 </template>
 

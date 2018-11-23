@@ -7,10 +7,18 @@
 <template>
   <div>
     <h1 class="red">To Where</h1>
-    <button class="physical-btn accountBox">TD Bank Account - 170192 - $88.31</button>
-    <button class="physical-btn accountBox">RBC Account - 445683 - $15,324.43</button>
-    <button class="physical-btn accountBox">Uncle Joe - 987321 - $34,222.21</button>
-    <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
+    
+    <button v-on:click="selectBox" class="physical-btn accountBox">Chequing Account - 123456 - $48.99</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">Savings Account - 135791 - $1,548.78</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">RRSP - 156913 - $11,209.11</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">TFSA - 981121 - $74,736.02</button>
+
+    <div class="buttonBox">
+      <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
+    </div>
   </div>
 </template>
 
@@ -19,6 +27,19 @@ module.exports = {
   methods: {
     submit () {
       this.$router.push('/insertCash') 
+    },
+    selectBox: function (event) {
+      if (event) {
+        var all = document.getElementsByClassName("accountBox");
+        var i;
+        for (i = 0; i < all.length; i++) {
+            all[i].style.backgroundColor = '#bfbfbf';
+        }
+        
+        event.target.style.backgroundColor = '#00bfff';
+
+      }
+
     }
   },
   data () {
