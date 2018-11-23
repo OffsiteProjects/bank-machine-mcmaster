@@ -28,7 +28,7 @@ module.exports = {
   },
   methods: {
     submit () {
-      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input }}) 
+      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input, account: this.$route.params.account }}) 
     }
   },
   data () {

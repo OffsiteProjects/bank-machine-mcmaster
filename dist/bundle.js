@@ -11343,7 +11343,7 @@ const routes = [
   { path: '/success', component: success},
   { path: '/verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', component: insertCash},
-  { path: '/withdrawCash', component: withdrawCash},
+  { path: '/withdrawCash', name: 'withdrawCash', component: withdrawCash},
   { path: '/receipt', component: receipt},
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
@@ -12566,6 +12566,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 
+
 module.exports = {
   methods: {
     submit () {
@@ -12586,7 +12587,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Withdraw "+_vm._s(this.$route.params.amount)+" from Savings?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Withdraw "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" from "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12626,10 +12627,18 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/withdrawCash') 
+      alert(currentBox)
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
+      }
+      
     },
     selectBox: function (event) {
       if (event) {
@@ -12640,7 +12649,7 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-
+        currentBox=event.target.innerHTML;
       }
 
     }
@@ -12702,7 +12711,7 @@ module.exports = {
   },
   methods: {
     submit () {
-      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input }}) 
+      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input, account: this.$route.params.account }}) 
     }
   },
   data () {

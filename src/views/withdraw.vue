@@ -22,10 +22,18 @@
 </template>
 
 <script>
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/withdrawCash') 
+      alert(currentBox)
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
+      }
+      
     },
     selectBox: function (event) {
       if (event) {
@@ -36,7 +44,7 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-
+        currentBox=event.target.innerHTML;
       }
 
     }

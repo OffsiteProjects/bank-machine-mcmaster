@@ -46,7 +46,7 @@ const routes = [
   { path: '/success', component: success},
   { path: '/verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', component: insertCash},
-  { path: '/withdrawCash', component: withdrawCash},
+  { path: '/withdrawCash', name: 'withdrawCash', component: withdrawCash},
   { path: '/receipt', component: receipt},
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},

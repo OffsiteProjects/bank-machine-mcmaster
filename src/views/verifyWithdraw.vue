@@ -14,7 +14,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <h2>Withdraw {{this.$route.params.amount}} from Savings?</h2>
+        <h2>Withdraw {{"$" +(this.$route.params.amount/100).toFixed(2)}} from {{this.$route.params.account}}?</h2>
       </div>
       <div class="buttonBox">
         <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 module.exports = {
   methods: {
     submit () {
