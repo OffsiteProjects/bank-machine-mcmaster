@@ -11309,6 +11309,7 @@ const moveMoney = require('./views/moveMoney.vue')
 const changePin = require('./views/changePin.vue')
 const history = require('./views/history.vue')
 const withdraw = require('./views/withdraw.vue')
+const withdrawCash = require('./views/withdrawCash.vue')
 const deposit = require('./views/deposit.vue')
 const verifyWithdraw = require('./views/verifyWithdraw.vue')
 const success = require('./views/success.vue')
@@ -11338,10 +11339,11 @@ const routes = [
   { path: '/history', component: history},
   { path: '/withdraw', component: withdraw},
   { path: '/deposit', component: deposit},
-  { path: '/verifyWithdraw', component: verifyWithdraw},
+  { path: '/verifyWithdraw', name: 'verifyWithdraw', component: verifyWithdraw},
   { path: '/success', component: success},
   { path: '/verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', component: insertCash},
+  { path: '/withdrawCash', component: withdrawCash},
   { path: '/receipt', component: receipt},
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
@@ -11363,7 +11365,7 @@ const app = new Vue({
   }
 }).$mount('#app')
 
-},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAmount.vue":27,"./views/verifyDeposit.vue":28,"./views/verifyEtransfer.vue":29,"./views/verifyTransfer.vue":30,"./views/verifyWithdraw.vue":31,"./views/withdraw.vue":32,"./views/withdrawDeposit.vue":33,"vue":5,"vue-router":4}],9:[function(require,module,exports){
+},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAmount.vue":27,"./views/verifyDeposit.vue":28,"./views/verifyEtransfer.vue":29,"./views/verifyTransfer.vue":30,"./views/verifyWithdraw.vue":31,"./views/withdraw.vue":32,"./views/withdrawCash.vue":33,"./views/withdrawDeposit.vue":34,"vue":5,"vue-router":4}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -11437,7 +11439,7 @@ module.exports = {
   },
   methods: {
     submit () {
-      const pin = this.$refs.pad.input.split('').reverse()
+      const pin = this.$refs.pad.input.split('')//.reverse()
       this.$router.push({name: 'confirmNewPin', params: { newPin: pin }}) 
     }
   },
@@ -11499,8 +11501,7 @@ module.exports = {
   methods: {
     submit () {
       
-      const pin = this.$refs.pad.input.split('').reverse()
-      alert(pin)
+      const pin = this.$refs.pad.input.split('')//.reverse()
       
       var checker=true;
       
@@ -11937,7 +11938,7 @@ module.exports = {
   },
   methods: {
     submit () {
-      const pin = this.$refs.pad.input.split('').reverse()
+      const pin = this.$refs.pad.input.split('')//.reverse()
       const correctPin = ['1', '2', '3', '4'] // lmao
 
       this.$router.push('/main-menu') 
@@ -12532,7 +12533,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\n\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
 //
 //
@@ -12556,20 +12557,27 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
-const NumPad = require('./../components/numpad.vue')
 module.exports = {
-  components: {
-    NumPad
-  },
   methods: {
     submit () {
       this.$router.push('/success') 
+    },
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
   data () {
     return {
-      msg: 'How Much Would You Like to Withdraw?'
+      msg: 'Are you sure?'
     }
   }
 }
@@ -12578,7 +12586,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Withdraw "+_vm._s(this.$route.params.amount)+" from Savings?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12591,7 +12599,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12621,7 +12629,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/verifyWithdraw') 
+      this.$router.push('/withdrawCash') 
     },
     selectBox: function (event) {
       if (event) {
@@ -12662,6 +12670,66 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],33:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+const NumPad = require('./../components/numpad.vue')
+module.exports = {
+  components: {
+    NumPad
+  },
+  methods: {
+    submit () {
+      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input }}) 
+    }
+  },
+  data () {
+    return {
+      msg: 'How Much Would You Like to Withdraw?'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d7400e82", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-d7400e82", __vue__options__)
+  }
+})()}
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],34:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //

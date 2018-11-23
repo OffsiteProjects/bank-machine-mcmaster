@@ -25,7 +25,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/verifyWithdraw') 
+      this.$router.push('/withdrawCash') 
     },
     selectBox: function (event) {
       if (event) {

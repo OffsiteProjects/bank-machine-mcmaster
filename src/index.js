@@ -12,6 +12,7 @@ const moveMoney = require('./views/moveMoney.vue')
 const changePin = require('./views/changePin.vue')
 const history = require('./views/history.vue')
 const withdraw = require('./views/withdraw.vue')
+const withdrawCash = require('./views/withdrawCash.vue')
 const deposit = require('./views/deposit.vue')
 const verifyWithdraw = require('./views/verifyWithdraw.vue')
 const success = require('./views/success.vue')
@@ -41,10 +42,11 @@ const routes = [
   { path: '/history', component: history},
   { path: '/withdraw', component: withdraw},
   { path: '/deposit', component: deposit},
-  { path: '/verifyWithdraw', component: verifyWithdraw},
+  { path: '/verifyWithdraw', name: 'verifyWithdraw', component: verifyWithdraw},
   { path: '/success', component: success},
   { path: '/verifyDeposit', component: verifyDeposit},
   { path: '/insertCash', component: insertCash},
+  { path: '/withdrawCash', component: withdrawCash},
   { path: '/receipt', component: receipt},
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
