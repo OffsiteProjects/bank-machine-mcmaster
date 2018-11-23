@@ -11496,7 +11496,6 @@ module.exports = {
       
       var checker=true;
       
-      alert('test');
       if(this.$route.params.newPin.length !== pin.length){
         checker=false;
       }
@@ -11509,7 +11508,6 @@ module.exports = {
         }     
       }
 
-      alert(checker);
       if(checker){
         alert("Your pin has been successfully changed!");
         this.$router.push('/success') 
@@ -11562,8 +11560,17 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = {
+  methods: {
+    submit () {
+      this.$router.push('/insertCash') 
+    }
+  },
   data () {
     return {
       msg: 'Foo'
@@ -11575,7 +11582,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/insertCash"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox"},[_vm._v("TD Bank Account - 170192 - $88.31")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox"},[_vm._v("RBC Account - 445683 - $15,324.43")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox"},[_vm._v("Uncle Joe - 987321 - $34,222.21")]),_vm._v(" "),_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12468,11 +12475,19 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
 
 module.exports = {
+  methods: {
+    submit () {
+      this.$router.push('/verifyWithdraw') 
+    }
+  },
   data () {
     return {
-      msg: 'Foo'
+      msg: 'From Where'
     }
   }
 }
@@ -12481,7 +12496,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/verifyWithdraw"}},[_vm._v("CheckMark")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox"},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox"},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12515,7 +12530,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   data () {
     return {
-      msg: 'Foo'
+      msg: 'Which would you like to do?'
     }
   }
 }
