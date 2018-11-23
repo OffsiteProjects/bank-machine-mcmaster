@@ -26,7 +26,8 @@ module.exports = {
     const self = this
     function route () {
       window.removeEventListener('click', route)
-      self.$router.push('/verifyDeposit') 
+      //self.$router.push('/verifyDeposit')
+      self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
     }
     window.addEventListener('click', route)
   }

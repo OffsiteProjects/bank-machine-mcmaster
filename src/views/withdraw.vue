@@ -27,7 +27,6 @@ var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      alert(currentBox)
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';

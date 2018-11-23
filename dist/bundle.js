@@ -11341,8 +11341,8 @@ const routes = [
   { path: '/deposit', component: deposit},
   { path: '/verifyWithdraw', name: 'verifyWithdraw', component: verifyWithdraw},
   { path: '/success', component: success},
-  { path: '/verifyDeposit', component: verifyDeposit},
-  { path: '/insertCash', component: insertCash},
+  { path: '/verifyDeposit', name: 'verifyDeposit', component: verifyDeposit},
+  { path: '/insertCash', name: 'insertCash', component: insertCash},
   { path: '/withdrawCash', name: 'withdrawCash', component: withdrawCash},
   { path: '/receipt', component: receipt},
   { path: '/prettyReceipt', component: prettyReceipt},
@@ -11582,10 +11582,18 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/insertCash') 
+      alert(currentBox)
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'insertCash', params: { account: savedValue }}) 
+      }
+      
     },
     selectBox: function (event) {
       if (event) {
@@ -11596,7 +11604,7 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-
+        currentBox=event.target.innerHTML;
       }
 
     }
@@ -11823,7 +11831,8 @@ module.exports = {
     const self = this
     function route () {
       window.removeEventListener('click', route)
-      self.$router.push('/verifyDeposit') 
+      //self.$router.push('/verifyDeposit')
+      self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
     }
     window.addEventListener('click', route)
   }
@@ -12388,8 +12397,20 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],28:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12410,6 +12431,9 @@ module.exports = {
   methods: {
     submit () {
       this.$router.push('/success') 
+    },
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
   data () {
@@ -12423,7 +12447,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Deposit $20.00 into "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
