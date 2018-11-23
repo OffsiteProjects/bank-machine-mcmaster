@@ -29,7 +29,7 @@ module.exports = {
   methods: {
     submit () {
       
-      const pin = this.$refs.pad.input.split('').reverse()
+      const pin = this.$refs.pad.input.split('')//.reverse()
       
       var checker=true;
       

@@ -11500,6 +11500,7 @@ module.exports = {
     submit () {
       
       const pin = this.$refs.pad.input.split('').reverse()
+      alert(pin)
       
       var checker=true;
       
