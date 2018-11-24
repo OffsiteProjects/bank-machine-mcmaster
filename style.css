@@ -81,3 +81,14 @@ h1{
 .hideCheck{
   display: none;
 }
+
+#errorBox{
+  background-color: red;
+  width: 250px;
+  height: 80px;
+  text-align: center;
+  margin: 2% auto;
+  color: white;
+  border-radius: 3%;
+  display: none;
+}

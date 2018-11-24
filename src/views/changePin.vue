@@ -6,6 +6,13 @@
 
 <template>
   <div>
+
+    <div id="errorBox">
+      The two pins that you entered did not match! 
+      <br>
+      Please try again.
+    </div>
+
     <h1 class="red">Input New Pin:</h1>
 
     <div class="row">
@@ -33,6 +40,14 @@ module.exports = {
     }
   },
   data () {
+      alert('hello')
+    if(this.$route.params.Error){
+      alert('bye');
+      var errorBox=document.getElementById("errorBox");
+      alert(errorBox.innerHTML);
+      errorBox.style.display='block';
+      alert('cool');
+    }
     return {
       msg: 'Foo'
     }
