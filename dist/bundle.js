@@ -12073,8 +12073,23 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],20:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n    color: red;\n  }\n  .btn-main {\n\twidth: 35%;\n\theight: 3em;\n\tpadding: 0;\n\tmargin: 0.2em;\n\tfont-size: x-large;\n\tfont-weight: bold;\n  }")
 ;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12100,7 +12115,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticStyle:{"color":"blue"}},[_vm._v("Main menu")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/withdrawDeposit"}},[_vm._v("Withdraw/Deposit Money")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/moveMoney"}},[_vm._v("Move Money")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/changePin"}},[_vm._v("Change Pin")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/history"}},[_vm._v("Transaction History")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v("Welcome to BANK")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("How can we help you today?")]),_vm._v(" "),_c('div',{staticClass:"col-xs-2"},[_c('router-link',{staticClass:"btn btn-primary btn-main",attrs:{"tag":"button","to":"/withdrawDeposit"}},[_vm._v("Withdraw/Deposit")]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary btn-main",attrs:{"tag":"button","to":"/moveMoney"}},[_vm._v("Move Money")])],1),_vm._v(" "),_c('div',{staticClass:"col-xs-2"},[_c('router-link',{staticClass:"btn btn-primary btn-main",attrs:{"tag":"button","to":"/changePin"}},[_vm._v("Change Pin")]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary btn-main",attrs:{"tag":"button","to":"/history"}},[_vm._v("Transaction History")])],1)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
