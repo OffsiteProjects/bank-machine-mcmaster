@@ -11320,6 +11320,7 @@ const receipt = require('./views/receipt.vue')
 const prettyReceipt = require('./views/prettyReceipt.vue')
 const etransfer = require('./views/etransfer.vue')
 const transferAccount = require('./views/transferAccount.vue')
+const transferAccountTo = require('./views/transferAccountTo.vue')
 const etransferAmount = require('./views/etransferAmount.vue')
 const verifyEtransfer = require('./views/verifyEtransfer.vue')
 const transferAmount = require('./views/transferAmount.vue')
@@ -11348,6 +11349,7 @@ const routes = [
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
   { path: '/transferAccount', component: transferAccount},
+  { path: '/transferAccountTo', name: 'transferAccountTo', component: transferAccountTo},
   { path: '/etransferAmount', name: 'etransferAmount', component: etransferAmount},
   { path: '/verifyEtransfer', name: 'verifyEtransfer', component: verifyEtransfer},
   { path: '/transferAmount', name: 'transferAmount', component: transferAmount},
@@ -11365,7 +11367,7 @@ const app = new Vue({
   }
 }).$mount('#app')
 
-},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAmount.vue":27,"./views/verifyDeposit.vue":28,"./views/verifyEtransfer.vue":29,"./views/verifyTransfer.vue":30,"./views/verifyWithdraw.vue":31,"./views/withdraw.vue":32,"./views/withdrawCash.vue":33,"./views/withdrawDeposit.vue":34,"vue":5,"vue-router":4}],9:[function(require,module,exports){
+},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAccountTo.vue":27,"./views/transferAmount.vue":28,"./views/verifyDeposit.vue":29,"./views/verifyEtransfer.vue":30,"./views/verifyTransfer.vue":31,"./views/verifyWithdraw.vue":32,"./views/withdraw.vue":33,"./views/withdrawCash.vue":34,"./views/withdrawDeposit.vue":35,"vue":5,"vue-router":4}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -11604,6 +11606,12 @@ module.exports = {
         
         event.target.style.backgroundColor = '#00bfff';
         currentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
       }
 
     }
@@ -11619,7 +11627,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11681,6 +11689,12 @@ module.exports = {
         
         event.target.style.backgroundColor = '#00bfff';
         currentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
       }
 
     }
@@ -11696,7 +11710,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select a recipient")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Phillip Pavlich")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Josh Mitchell")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Erin Varey")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Thomas Mullen")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select a recipient")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Phillip Pavlich")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Josh Mitchell")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Erin Varey")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Thomas Mullen")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11810,6 +11824,12 @@ module.exports = {
         
         event.target.style.backgroundColor = '#00bfff';
 
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
+
       }
 
     }
@@ -11825,7 +11845,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Account to view")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Account to view")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12377,50 +12397,20 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 var fromCurrentBox='';
 var fromSavedValue='';
-var toCurrentBox='';
-var toSavedValue='';
+
 module.exports = {
   methods: {
     submit () {
-      if(fromCurrentBox !== '' && toCurrentBox !== ''){
+      if(fromCurrentBox !== ''){
         fromSavedValue=fromCurrentBox;
         fromCurrentBox='';
 
-        toSavedValue=toCurrentBox;
-        toCurrentBox='';
-
-        this.$router.push({name: 'transferAmount', params: {fromAccount: fromSavedValue, toAccount: toSavedValue }}) 
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue}}) 
       }
       
-    },
-    selectBox1: function (event) {
-      if (event) {
-        var all = document.getElementsByClassName("accountBox1");
-        var i;
-        for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
-        }
-        
-        event.target.style.backgroundColor = '#00bfff';
-        fromCurrentBox=event.target.innerHTML;
-      }
-
     },
     selectBox: function (event) {
       if (event) {
@@ -12431,7 +12421,13 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-        toCurrentBox=event.target.innerHTML;
+        fromCurrentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
       }
 
     }
@@ -12447,7 +12443,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Accounts")]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("From: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox1",on:{"click":_vm.selectBox1}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("To: ")]),_vm._v(" "),_c('div',{staticClass:"selectionBox"},[_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Accounts")]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("From: ")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12461,6 +12457,97 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],27:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  margin-left: 4%;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var toCurrentBox='';
+var toSavedValue='';
+
+module.exports = {
+  methods: {
+    submit () {
+      if(toCurrentBox !== ''){
+        toSavedValue=toCurrentBox;
+        toCurrentBox='';
+
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
+      }
+      
+    },
+    selectBox: function (event) {
+      if (event) {
+        var all = document.getElementsByClassName("accountBox");
+        var i;
+        for (i = 0; i < all.length; i++) {
+            all[i].style.backgroundColor = '#bfbfbf';
+        }
+        
+        event.target.style.backgroundColor = '#00bfff';
+        toCurrentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
+      }
+
+    }
+  },
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Select Accounts")]),_vm._v(" "),_c('h2',{staticClass:"leftAlign"},[_vm._v("To: ")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-68fa80eb", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-68fa80eb", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],28:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12517,7 +12604,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-a469a3f6", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],28:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],29:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
 //
@@ -12581,7 +12668,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1a6aa5f3", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],29:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],30:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12638,7 +12725,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-072b2336", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],30:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12700,7 +12787,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-b73cce34", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\n\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
 //
@@ -12768,7 +12855,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],33:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12817,6 +12904,13 @@ module.exports = {
         
         event.target.style.backgroundColor = '#00bfff';
         currentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
+
       }
 
     }
@@ -12832,7 +12926,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12845,7 +12939,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6eaf34ec", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],33:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],34:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -12905,7 +12999,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-d7400e82", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],34:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],35:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //

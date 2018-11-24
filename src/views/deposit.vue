@@ -16,7 +16,7 @@
 
     <button v-on:click="selectBox" class="physical-btn accountBox">TFSA - 981121 - $74,736.02</button>
 
-    <div class="buttonBox">
+    <div class="buttonBox hideCheck">
       <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
     </div>
   </div>
@@ -45,6 +45,12 @@ module.exports = {
         
         event.target.style.backgroundColor = '#00bfff';
         currentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
       }
 
     }

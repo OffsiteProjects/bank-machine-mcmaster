@@ -52,7 +52,7 @@ h1{
   margin: auto;
 }
 
-.accountBox, .accountBox1{
+.accountBox{
   border: 1px solid black;
   margin: 2% 10%;
   width: 80%;
@@ -77,3 +77,7 @@ h1{
 .leftAlign{
     text-align: left;
   }
+
+.hideCheck{
+  display: none;
+}

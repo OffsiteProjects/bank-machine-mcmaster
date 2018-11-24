@@ -23,6 +23,7 @@ const receipt = require('./views/receipt.vue')
 const prettyReceipt = require('./views/prettyReceipt.vue')
 const etransfer = require('./views/etransfer.vue')
 const transferAccount = require('./views/transferAccount.vue')
+const transferAccountTo = require('./views/transferAccountTo.vue')
 const etransferAmount = require('./views/etransferAmount.vue')
 const verifyEtransfer = require('./views/verifyEtransfer.vue')
 const transferAmount = require('./views/transferAmount.vue')
@@ -51,6 +52,7 @@ const routes = [
   { path: '/prettyReceipt', component: prettyReceipt},
   { path: '/etransfer', component: etransfer},
   { path: '/transferAccount', component: transferAccount},
+  { path: '/transferAccountTo', name: 'transferAccountTo', component: transferAccountTo},
   { path: '/etransferAmount', name: 'etransferAmount', component: etransferAmount},
   { path: '/verifyEtransfer', name: 'verifyEtransfer', component: verifyEtransfer},
   { path: '/transferAmount', name: 'transferAmount', component: transferAmount},

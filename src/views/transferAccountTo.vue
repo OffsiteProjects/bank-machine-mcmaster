@@ -2,11 +2,17 @@
   .red {
     color: red;
   }
+  h2{
+    margin-left: 4%;
+  }
 </style>
 
 <template>
   <div>
-    <h1 class="red">{{msg}}</h1>
+    <h1 class="red">Select Accounts</h1>
+    
+    <h2 class="leftAlign">To: </h2>
+
     <button v-on:click="selectBox" class="physical-btn accountBox">Chequing Account - 123456 - $48.99</button>
 
     <button v-on:click="selectBox" class="physical-btn accountBox">Savings Account - 135791 - $1,548.78</button>
@@ -22,15 +28,17 @@
 </template>
 
 <script>
-var currentBox='';
-var savedValue='';
+var toCurrentBox='';
+var toSavedValue='';
+
 module.exports = {
   methods: {
     submit () {
-      if(currentBox !== ''){
-        savedValue=currentBox;
-        currentBox='';
-        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
+      if(toCurrentBox !== ''){
+        toSavedValue=toCurrentBox;
+        toCurrentBox='';
+
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
       }
       
     },
@@ -43,21 +51,20 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-        currentBox=event.target.innerHTML;
+        toCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
             displayCheck[j].style.display = 'block';
         }
-
       }
 
     }
   },
   data () {
     return {
-      msg: 'From Where'
+      msg: 'Foo'
     }
   }
 }
