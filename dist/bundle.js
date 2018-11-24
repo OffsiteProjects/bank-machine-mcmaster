@@ -11456,10 +11456,9 @@ module.exports = {
       alert('hello')
     if(this.$route.params.Error){
       alert('bye');
-      var errorBox=document.getElementsByClassName("errorBox");
-      //var errorBox=document.getElementById("errorBox");
-      alert(errorBox[0].innerHTML);
-      errorBox[0].style.display='block';
+      var errorBox=document.getElementById("errorBox");
+      alert(errorBox.innerHTML);
+      errorBox.style.display='block';
       alert('cool');
     }
     return {
