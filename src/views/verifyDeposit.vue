@@ -29,7 +29,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

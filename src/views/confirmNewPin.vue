@@ -47,7 +47,7 @@ module.exports = {
 
       if(checker){
         alert("Your pin has been successfully changed!");
-        this.$router.push('/success') 
+        this.$router.push({name: 'success', params: { Message: 'Your pin has been successfully changed!'}}) 
       }
       else{
         alert("The pin that you entered did not match! You are being redirected to the main menu.");

@@ -27,7 +27,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount + ' to account: '+ this.$route.params.toAccount + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 
