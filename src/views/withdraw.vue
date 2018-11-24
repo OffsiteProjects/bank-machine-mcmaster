@@ -30,7 +30,7 @@ module.exports = {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
       }
       
     },
