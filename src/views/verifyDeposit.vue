@@ -9,10 +9,10 @@
 
 <template>
   <div>
-    <h1 class="red">{{msg}}</h1>
+    <h1 class="big-title">{{msg}}</h1>
     <div class="row">
       <div class="col-sm-12">
-        <h2>Deposit $20.00 into {{this.$route.params.account}}?</h2>
+        <h2 class="sub-title">Deposit $20.00 into {{this.$route.params.account}}?</h2>
       </div>
       <div class="buttonBox">
         <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
