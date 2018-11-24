@@ -11586,13 +11586,14 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 
 var currentBox='';
 var savedValue='';
+
 module.exports = {
   methods: {
     submit () {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'insertCash', params: { account: savedValue }}) 
+        this.$router.push({name: 'insertCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
       }
       
     },
@@ -12408,7 +12409,7 @@ module.exports = {
         fromSavedValue=fromCurrentBox;
         fromCurrentBox='';
 
-        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue}}) 
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue.slice(0,fromSavedValue.lastIndexOf("-")-1)}}) 
       }
       
     },
@@ -12499,7 +12500,7 @@ module.exports = {
         toSavedValue=toCurrentBox;
         toCurrentBox='';
 
-        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue.slice(0,toSavedValue.lastIndexOf("-")-1) }}) 
       }
       
     },
@@ -12890,7 +12891,7 @@ module.exports = {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
       }
       
     },
