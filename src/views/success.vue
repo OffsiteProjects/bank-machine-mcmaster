@@ -6,7 +6,7 @@
 
 <template>
   <div>
-
+    <h2>{{ this.$route.params.Message }}</h2>
     <p>What should be displayed on this page? Type of transaction, amount, balance</p>
     <p>"Type of Transaction" was successful! Final Account Balance?</p>
      Anymore Transactions

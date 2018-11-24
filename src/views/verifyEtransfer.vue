@@ -25,7 +25,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully E-transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' to recipient: '+ this.$route.params.payTo + '!'}}) 
     }
   },
   data () {

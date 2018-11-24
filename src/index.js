@@ -39,7 +39,7 @@ const routes = [
   { path: '/logout', component: Logout },
   { path: '/withdrawDeposit', component: withdrawDeposit },
   { path: '/moveMoney', component: moveMoney },
-  { path: '/changePin', component: changePin},
+  { path: '/changePin', name: 'changePin', component: changePin},
   { path: '/history', component: history},
   { path: '/withdraw', component: withdraw},
   { path: '/deposit', component: deposit},

@@ -33,7 +33,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.account + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

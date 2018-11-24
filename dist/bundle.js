@@ -11336,7 +11336,7 @@ const routes = [
   { path: '/logout', component: Logout },
   { path: '/withdrawDeposit', component: withdrawDeposit },
   { path: '/moveMoney', component: moveMoney },
-  { path: '/changePin', component: changePin},
+  { path: '/changePin', name: 'changePin', component: changePin},
   { path: '/history', component: history},
   { path: '/withdraw', component: withdraw},
   { path: '/deposit', component: deposit},
@@ -11395,7 +11395,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/success"}},[_vm._v("Done")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("Done")])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11433,6 +11433,13 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 const NumPad = require('./../components/numpad.vue')
 module.exports = {
@@ -11446,6 +11453,15 @@ module.exports = {
     }
   },
   data () {
+      alert('hello')
+    if(this.$route.params.Error){
+      alert('bye');
+      var errorBox=document.getElementsByClassName("errorBox");
+      //var errorBox=document.getElementById("errorBox");
+      alert(errorBox[0].innerHTML);
+      errorBox[0].style.display='block';
+      alert('cool');
+    }
     return {
       msg: 'Foo'
     }
@@ -11456,8 +11472,8 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("Input New Pin:")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"true"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
-__vue__options__.staticRenderFns = []
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._m(0),_vm._v(" "),_c('h1',{staticClass:"red"},[_vm._v("Input New Pin:")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"true"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"errorBox"}},[_vm._v("\n    The two pins that you entered did not match! \n    "),_c('br'),_vm._v("\n    Please try again.\n  ")])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -11520,12 +11536,12 @@ module.exports = {
       }
 
       if(checker){
-        alert("Your pin has been successfully changed!");
-        this.$router.push('/success') 
+        this.$router.push({name: 'success', params: { Message: 'Your pin has been successfully changed!'}}) 
       }
       else{
         alert("The pin that you entered did not match! You are being redirected to the main menu.");
-        this.$router.push('/main-menu') 
+        this.$router.push({name: 'changePin', params: { Error: true}}) 
+        
       }
 
     }
@@ -12368,7 +12384,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('p',[_vm._v("What should be displayed on this page? Type of transaction, amount, balance")]),_vm._v(" "),_c('p',[_vm._v("\"Type of Transaction\" was successful! Final Account Balance?")]),_vm._v("\n   Anymore Transactions\n   "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h2',[_vm._v(_vm._s(this.$route.params.Message))]),_vm._v(" "),_c('p',[_vm._v("What should be displayed on this page? Type of transaction, amount, balance")]),_vm._v(" "),_c('p',[_vm._v("\"Type of Transaction\" was successful! Final Account Balance?")]),_vm._v("\n   Anymore Transactions\n   "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12654,7 +12670,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 
@@ -12714,7 +12730,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully E-transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' to recipient: '+ this.$route.params.payTo + '!'}}) 
     }
   },
   data () {
@@ -12773,7 +12789,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount + ' to account: '+ this.$route.params.toAccount + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 
@@ -12841,7 +12857,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push('/success') 
+      this.$router.push({name: 'success', params: { Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.account + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

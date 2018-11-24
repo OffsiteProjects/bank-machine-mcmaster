@@ -6,7 +6,7 @@
 
 <template><div>
   <h1 class="red">Transactions</h1>
-  <router-link tag="button" to="/success" class="btn">Done</router-link>
+  <router-link tag="button" to="/main-menu" class="btn">Done</router-link>
   </div>
 </template>
 
