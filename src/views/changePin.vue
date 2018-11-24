@@ -6,7 +6,6 @@
 
 <template>
   <div>
-
     <div id="errorBox">
       The two pins that you entered did not match! 
       <br>
@@ -39,15 +38,13 @@ module.exports = {
       this.$router.push({name: 'confirmNewPin', params: { newPin: pin }}) 
     }
   },
-  data () {
-      alert('hello')
+  mounted(){
     if(this.$route.params.Error){
-      alert('bye');
-      var errorBox=document.getElementById("errorBox");
-      alert(errorBox.innerHTML);
+      var errorBox=document.getElementById('errorBox');
       errorBox.style.display='block';
-      alert('cool');
     }
+  },
+  data () {
     return {
       msg: 'Foo'
     }
