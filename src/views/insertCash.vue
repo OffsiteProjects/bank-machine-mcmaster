@@ -21,11 +21,15 @@
 
 <script>
 module.exports = {
+
   mounted () {
-    let listener = window.addEventListener('click', () => {
-      window.removeEventListener('click', listener)
-      this.$router.push('/verifyDeposit') 
-    })
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      //self.$router.push('/verifyDeposit')
+      self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
+    }
+    window.addEventListener('click', route)
   }
 }
 </script>

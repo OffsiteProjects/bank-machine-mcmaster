@@ -2,16 +2,66 @@
   .red {
     color: red;
   }
+  h2{
+    margin-left: 4%;
+  }
 </style>
 
-<template><div>
-  <h1 class="red">Select Account</h1>
-  <router-link tag="button" to="/transferAmount" class="btn">CheckMark</router-link>
+<template>
+  <div>
+    <h1 class="red">Select Accounts</h1>
+    
+    <h2 class="leftAlign">From: </h2>
+    
+    <button v-on:click="selectBox" class="physical-btn accountBox">Chequing Account - 123456 - $48.99</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">Savings Account - 135791 - $1,548.78</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">RRSP - 156913 - $11,209.11</button>
+
+    <button v-on:click="selectBox" class="physical-btn accountBox">TFSA - 981121 - $74,736.02</button>
+
+    <div class="buttonBox hideCheck">
+      <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
     </div>
+  </div>
 </template>
 
 <script>
+var fromCurrentBox='';
+var fromSavedValue='';
+
 module.exports = {
+  methods: {
+    submit () {
+      if(fromCurrentBox !== ''){
+        fromSavedValue=fromCurrentBox;
+        fromCurrentBox='';
+
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue.slice(0,fromSavedValue.lastIndexOf("-")-1)}}) 
+      }
+      
+    },
+    selectBox: function (event) {
+      if (event) {
+        var all = document.getElementsByClassName("accountBox");
+        var i;
+        for (i = 0; i < all.length; i++) {
+            all[i].style.backgroundColor = '#bfbfbf';
+        }
+        
+        event.target.style.backgroundColor = '#00bfff';
+        fromCurrentBox=event.target.innerHTML;
+
+        var displayCheck = document.getElementsByClassName("hideCheck");
+        var j;
+        for (j = 0; j < displayCheck.length; j++) {
+            displayCheck[j].style.display = 'block';
+        }
+      }
+
+    }
+  },
   data () {
     return {
       msg: 'Foo'

@@ -12,7 +12,7 @@
   <div class="container">  
     <div class="row text-center">
       <div class="col-sm">
-        <h2>Please enter your PIN</h2>
+        <h2>Please enter your PIN:</h2>
       </div>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@ module.exports = {
   },
   methods: {
     submit () {
-      const pin = this.$refs.pad.input.split('').reverse()
+      const pin = this.$refs.pad.input.split('')//.reverse()
       const correctPin = ['1', '2', '3', '4'] // lmao
 
       this.$router.push('/main-menu') 

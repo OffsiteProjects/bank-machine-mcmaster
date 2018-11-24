@@ -17,13 +17,18 @@
     "url": "https://github.com/OffsiteProjects/bank-machine-mcmaster/issues"
   },
   "homepage": "https://github.com/OffsiteProjects/bank-machine-mcmaster#readme",
-  "dependencies": {},
+  "dependencies": {
+    "css-loader": "^1.0.1",
+    "webpack": "^4.26.0"
+  },
   "devDependencies": {
+    "browserify": "^16.2.3",
     "browserify-css": "^0.14.0",
     "vue": "^2.5.17",
     "vue-loader": "^15.4.2",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.17",
-    "vueify": "^9.4.1"
+    "vueify": "^9.4.1",
+    "watchify": "^3.11.0"
   }
 }

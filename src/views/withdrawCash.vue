@@ -4,9 +4,11 @@
   }
 </style>
 
-<template><div>
-  <h1 class="red">How Much</h1>
-   <div class="row">
+<template>
+  <div>
+    <h1 class="red">{{msg}}</h1>
+
+    <div class="row">
       <div class="col-sm-8">
         <num-pad pin-format=false ref="pad"></num-pad>
       </div>
@@ -14,6 +16,7 @@
         <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -25,13 +28,12 @@ module.exports = {
   },
   methods: {
     submit () {
-      this.$router.push({name: 'verifyEtransfer', params: { amount: this.$refs.pad.input, payTo: this.$route.params.payTo }}) 
-      
+      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input, account: this.$route.params.account }}) 
     }
   },
   data () {
     return {
-      msg: 'Foo'
+      msg: 'How Much Would You Like to Withdraw?'
     }
   }
 }
