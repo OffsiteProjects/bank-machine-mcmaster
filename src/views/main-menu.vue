@@ -2,14 +2,6 @@
   .red {
     color: red;
   }
-  .btn-main {
-	width: 35%;
-	height: 3em;
-	padding: 0;
-	margin: 0.2em;
-	font-size: x-large;
-	font-weight: bold;
-  }
 </style>
 
 <template>
