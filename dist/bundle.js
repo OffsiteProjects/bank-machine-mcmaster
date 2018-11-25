@@ -11568,10 +11568,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],12:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-//
-//
 //
 //
 //
@@ -11613,10 +11610,12 @@ module.exports = {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = '#007bff';
         }
         
         event.target.style.backgroundColor = '#00bfff';
+		event.target.style.borderColor = '#00bfff';
         currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
@@ -11639,20 +11638,19 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v("To Where")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"physical-btn accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v("Deposit Cash")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Which account would you like to deposit cash to today?")]),_vm._v(" "),_c('button',{staticClass:"btn-primary accountBox",on:{"click":_vm.selectBox}},[_vm._v("Chequing Account - 123456 - $48.99")]),_vm._v(" "),_c('button',{staticClass:"btn-primary accountBox",on:{"click":_vm.selectBox}},[_vm._v("Savings Account - 135791 - $1,548.78")]),_vm._v(" "),_c('button',{staticClass:"btn-primary accountBox",on:{"click":_vm.selectBox}},[_vm._v("RRSP - 156913 - $11,209.11")]),_vm._v(" "),_c('button',{staticClass:"btn-primary accountBox",on:{"click":_vm.selectBox}},[_vm._v("TFSA - 981121 - $74,736.02")]),_vm._v(" "),_c('div',{staticClass:"buttonBox hideCheck"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-00e98cac", __vue__options__)
   } else {
     hotAPI.reload("data-v-00e98cac", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],13:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],13:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -11894,6 +11892,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
 
 module.exports = {
 
@@ -11913,7 +11912,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h2',[_vm._v("Insert Cash")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/card.jpeg"}})])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h1',{staticClass:"big-title"},[_vm._v("Insert Cash")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please insert all bills into the slot below")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/cash.png"}})])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -12218,7 +12217,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".navbar 
 module.exports = {
   data () {
     return {
-      noBackRoutes: ["/", "/logout", "/pin"],
+      noBackRoutes: ["/","/#/" , "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw", "/verifyTransfer","/verifyEtransfer","/success" ],
       isHome: this.$router.currentRoute.path == "/",
       isLoggedIn: false
     }
@@ -12674,7 +12673,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Deposit $20.00 into "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Deposit $20.00 into "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12916,10 +12915,12 @@ module.exports = {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = "#007bff";
         }
         
         event.target.style.backgroundColor = '#00bfff';
+		event.target.style.borderColor = '#00bfff';
         currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
