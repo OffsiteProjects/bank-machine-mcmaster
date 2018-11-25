@@ -4,9 +4,12 @@
   }
 </style>
 
-<template><div>
-  <h1 class="red">Transactions</h1>
-  <router-link tag="button" to="/main-menu" class="btn">Done</router-link>
+<template>
+  <div class="row">
+    <div class="column col-lg-12 centered">
+    <h1 class="red">Transactions</h1>
+    <router-link tag="button" to="/main-menu" class="btn btn-primary">Done</router-link>
+  </div>
   </div>
 </template>
 

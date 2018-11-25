@@ -5,20 +5,21 @@
 </style>
 
 <template>
-<div>
+  <div class="row">
+    <div class="column col-lg-12 centered">
   <h1 class="red">Select a recipient</h1>
-    <button v-on:click="selectBox" class="physical-btn accountBox">Phillip Pavlich</button>
+    <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Phillip Pavlich</button>
 
-    <button v-on:click="selectBox" class="physical-btn accountBox">Josh Mitchell</button>
+    <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Josh Mitchell</button>
 
-    <button v-on:click="selectBox" class="physical-btn accountBox">Erin Varey</button>
+    <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Erin Varey</button>
 
-    <button v-on:click="selectBox" class="physical-btn accountBox">Thomas Mullen</button>
+    <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Thomas Mullen</button>
 
     <div class="buttonBox hideCheck">
       <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
     </div>
-  </div>
+  </div></div>
 </template>
 
 <script>

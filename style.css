@@ -8,6 +8,10 @@
 	margin-bottom:1.5em;
 }
 
+.centered {
+  text-align:center;
+}
+
 .btn-main {
 	width: 35%;
 	height: 3em;
