@@ -16,7 +16,7 @@
 module.exports = {
   data () {
     return {
-      msg: 'Foo'
+      msg: 'How would you like to transfer money?'
     }
   }
 }

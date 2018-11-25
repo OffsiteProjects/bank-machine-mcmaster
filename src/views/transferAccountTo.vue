@@ -11,8 +11,8 @@
   <div>
     <h1 class="red">Select Accounts</h1>
     
-    <h2 class="leftAlign">From: </h2>
-    
+    <h2 class="leftAlign">To: </h2>
+
     <button v-on:click="selectBox" class="physical-btn accountBox">Chequing Account - 123456 - $48.99</button>
 
     <button v-on:click="selectBox" class="physical-btn accountBox">Savings Account - 135791 - $1,548.78</button>
@@ -28,17 +28,17 @@
 </template>
 
 <script>
-var fromCurrentBox='';
-var fromSavedValue='';
+var toCurrentBox='';
+var toSavedValue='';
 
 module.exports = {
   methods: {
     submit () {
-      if(fromCurrentBox !== ''){
-        fromSavedValue=fromCurrentBox;
-        fromCurrentBox='';
+      if(toCurrentBox !== ''){
+        toSavedValue=toCurrentBox;
+        toCurrentBox='';
 
-        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue.slice(0,fromSavedValue.lastIndexOf("-")-1)}}) 
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue.slice(0,toSavedValue.lastIndexOf("-")-1) }}) 
       }
       
     },
@@ -51,7 +51,7 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
-        fromCurrentBox=event.target.innerHTML;
+        toCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;

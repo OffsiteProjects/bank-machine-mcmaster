@@ -44,23 +44,29 @@ module.exports = {
   props: ['pin-format'],
   methods: {
     formatCents (cents) {
-      if (this.pinFormat) return (new Array(cents.length)).fill('•').join('')
-      if (cents.length === 0) {
+      if (this.pinFormat==='true'){
+        return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (cents.length === 0) {
         return '0.00'
-      } if (cents.length <= 2) {
+      } 
+
+      else if (cents.length <= 2) {
         return '0.00'.slice(0,-cents.length) + cents
-      } else {
+      } 
+
+      else {
         return (cents / 100).toFixed(2);
       }
     },
     press (el) {
       if (el === '<') {
-        this.input = this.input.slice(1)
+        this.input = this.input.slice(0,this.input.length-1)//(1)
       } else if (el === 'X') {
         this.input = ''
       } else {
-        if (this.pinFormat && this.input.length >= 4) return
-        this.input = el + this.input
+        if (this.pinFormat==='true' && this.input.length >= 4) return
+        this.input = this.input + el //switch order
       }
     }
   }
