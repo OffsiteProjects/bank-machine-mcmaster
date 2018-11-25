@@ -5,13 +5,12 @@
 </style>
 
 <template>
-  <div>
-    <h2>{{ this.$route.params.Message }}</h2>
-    <p>What should be displayed on this page? Type of transaction, amount, balance</p>
-    <p>"Type of Transaction" was successful! Final Account Balance?</p>
-     Anymore Transactions
-     <router-link tag="button" to="/main-menu" class="btn">More Transactions</router-link>
-     <router-link tag="button" to="/receipt" class="btn">Receipt</router-link>
+  <div class="row">
+    <div class="column col-lg-12 centered">
+      <h2>{{ this.$route.params.Message }}</h2>
+      <router-link tag="button" to="/main-menu" class="btn btn-primary">More Transactions</router-link>
+      <router-link tag="button" to="/receipt" class="btn btn-primary">Receipt</router-link>
+    </div>
   </div>
 </template>
 

@@ -39,7 +39,11 @@
 module.exports = {
   data () {
     return {
-      noBackRoutes: ["/","/#/" , "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw", "/verifyTransfer","/verifyEtransfer","/success" ],
+      noBackRoutes: [
+        "/","/#/" , "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw",
+        "/verifyTransfer","/verifyEtransfer","/success", "/prettyReceipt",
+        "/success"
+      ],
       isHome: this.$router.currentRoute.path == "/",
       isLoggedIn: false
     }
