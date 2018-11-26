@@ -5,7 +5,7 @@
 <template>
   <div class="text-center">
     <h1 class="big-title">{{msg}}</h1>
-	<h2 class="sub-title">Which account would you like to withdraw cash from today?</h2>
+	<h2 class="sub-title">From which account would you like to withdraw cash today?</h2>
     <button v-on:click="selectBox" class="btn-primary accountBox">Chequing Account - 123456 - $48.99</button>
 
     <button v-on:click="selectBox" class="btn-primary accountBox">Savings Account - 135791 - $1,548.78</button>

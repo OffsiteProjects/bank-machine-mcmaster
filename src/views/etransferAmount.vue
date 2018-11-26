@@ -1,11 +1,10 @@
 <style>
-  .red {
-    color: red;
-  }
+
 </style>
 
 <template><div>
-  <h1 class="red">How Much</h1>
+<h1 class="big-title">e-Transfer</h1>
+  <h2 class="sub-title">How much money would you like to send?</h2>
    <div class="row">
       <div class="col-sm-8">
         <num-pad pin-format=false ref="pad"></num-pad>
