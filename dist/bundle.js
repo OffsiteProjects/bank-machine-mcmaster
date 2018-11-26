@@ -12070,7 +12070,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("Thank you for banking with us!")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please don't forget your card below.")]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/card.jpeg"}})])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("Thank you for banking with us!")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please don't forget your card below.")]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/card-out.jpeg"}})])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
