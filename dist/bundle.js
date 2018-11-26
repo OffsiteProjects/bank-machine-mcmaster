@@ -11329,6 +11329,7 @@ const transferAmount = require('./views/transferAmount.vue')
 const verifyTransfer = require('./views/verifyTransfer.vue')
 const confirmNewPin = require('./views/confirmNewPin.vue')
 const AccountHistory = require('./views/accountHistory.vue')
+const retrieveCash = require('./views/retrieveCash.vue')
 
 const routes = [
   { path: '/', component: FakeCard },
@@ -11357,7 +11358,8 @@ const routes = [
   { path: '/transferAmount', name: 'transferAmount', component: transferAmount},
   { path: '/verifyTransfer', name: 'verifyTransfer', component: verifyTransfer},
   { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
-  { path: '/accountHistory', name: 'accountHistory', component: AccountHistory}
+  { path: '/accountHistory', name: 'accountHistory', component: AccountHistory},
+  { path: '/retrieveCash', component: retrieveCash},
 ]
 const router = new VueRouter({
   routes // short for `routes: routes`
@@ -11369,7 +11371,7 @@ const app = new Vue({
   }
 }).$mount('#app')
 
-},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAccountTo.vue":27,"./views/transferAmount.vue":28,"./views/verifyDeposit.vue":29,"./views/verifyEtransfer.vue":30,"./views/verifyTransfer.vue":31,"./views/verifyWithdraw.vue":32,"./views/withdraw.vue":33,"./views/withdrawCash.vue":34,"./views/withdrawDeposit.vue":35,"vue":5,"vue-router":4}],9:[function(require,module,exports){
+},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/retrieveCash.vue":25,"./views/success.vue":26,"./views/transferAccount.vue":27,"./views/transferAccountTo.vue":28,"./views/transferAmount.vue":29,"./views/verifyDeposit.vue":30,"./views/verifyEtransfer.vue":31,"./views/verifyTransfer.vue":32,"./views/verifyWithdraw.vue":33,"./views/withdraw.vue":34,"./views/withdrawCash.vue":35,"./views/withdrawDeposit.vue":36,"vue":5,"vue-router":4}],9:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -11771,7 +11773,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("e-Transfer")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("How much money would you like to send?")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("e-Transfer")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("How much money would you like to send to "+_vm._s(this.$route.params.payTo)+"?")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11901,7 +11903,6 @@ module.exports = {
     const self = this
     function route () {
       window.removeEventListener('click', route)
-      //self.$router.push('/verifyDeposit')
       self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
     }
     window.addEventListener('click', route)
@@ -12383,6 +12384,62 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],25:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+
+  mounted () {
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      self.$router.push({path: '/main-menu'})  
+      
+    }
+    window.addEventListener('click', route)
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h1',{staticClass:"big-title"},[_vm._v("Insert Cash")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please retrieve your cash below.")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/cash.png"}})])])])}]
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a48dbf1", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-4a48dbf1", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],26:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12442,7 +12499,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-756b08de", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],26:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],27:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12529,7 +12586,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-ebefac60", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],27:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],28:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12623,7 +12680,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-68fa80eb", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],28:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],29:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12665,7 +12722,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("Transfer Between Accounts")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("How much money would you like to transfer?")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v("Transfer Between Accounts")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("How much money would you like to transfer from "+_vm._s(this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1))+" to "+_vm._s(this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1))+"?")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12677,7 +12734,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-a469a3f6", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],29:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],30:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
 //
@@ -12714,7 +12771,7 @@ module.exports = {
       this.$router.push({name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account + '!'}}) 
     },
     cancel () {
-      this.$router.push('/main-menu') 
+      this.$router.push('/retrieveCash') 
     }
   },
   data () {
@@ -12741,7 +12798,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-1a6aa5f3", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],30:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12797,7 +12854,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-072b2336", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],31:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],32:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12857,7 +12914,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-b73cce34", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],32:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],33:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -12917,7 +12974,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],33:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],34:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -13000,7 +13057,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-6eaf34ec", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3}],34:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],35:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //
@@ -13060,7 +13117,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-d7400e82", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],35:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],36:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
 //

@@ -8,8 +8,8 @@
   <div>
     <div class="row text-center">
       <div class="col-sm">
-        <h1 class="big-title">Insert Cash</h1>
-		<h2 class="sub-title">Please insert all bills into the slot below</h2>
+        <h1 class="big-title">Deposit Cancelled</h1>
+		<h2 class="sub-title">Please retrieve your cash below.</h2>
       </div>
     </div>
     <div class="row text-center">
@@ -27,7 +27,8 @@ module.exports = {
     const self = this
     function route () {
       window.removeEventListener('click', route)
-      self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
+      self.$router.push({path: '/main-menu'})  
+      
     }
     window.addEventListener('click', route)
   }

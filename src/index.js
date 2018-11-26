@@ -30,6 +30,7 @@ const transferAmount = require('./views/transferAmount.vue')
 const verifyTransfer = require('./views/verifyTransfer.vue')
 const confirmNewPin = require('./views/confirmNewPin.vue')
 const AccountHistory = require('./views/accountHistory.vue')
+const retrieveCash = require('./views/retrieveCash.vue')
 
 const routes = [
   { path: '/', component: FakeCard },
@@ -58,7 +59,8 @@ const routes = [
   { path: '/transferAmount', name: 'transferAmount', component: transferAmount},
   { path: '/verifyTransfer', name: 'verifyTransfer', component: verifyTransfer},
   { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
-  { path: '/accountHistory', name: 'accountHistory', component: AccountHistory}
+  { path: '/accountHistory', name: 'accountHistory', component: AccountHistory},
+  { path: '/retrieveCash', component: retrieveCash},
 ]
 const router = new VueRouter({
   routes // short for `routes: routes`
