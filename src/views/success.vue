@@ -3,7 +3,7 @@
 </style>
 
 <template>
-<div>
+<div class="row">
   <div class="text-center">
     <h1 class="big-title">{{ this.$route.params.Message }}</h1>
     <div class="column col-lg-12">
@@ -12,6 +12,7 @@
     </div>
       
   </div>
+
   <div class="buttonBox">
     <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
   </div>
