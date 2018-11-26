@@ -11598,7 +11598,7 @@ module.exports = {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'insertCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
+        this.$router.push({name: 'insertCash', params: { account: savedValue }}) 
       }
       
     },
@@ -12427,7 +12427,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h1',{staticClass:"big-title"},[_vm._v("Insert Cash")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please retrieve your cash below.")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/cash.png"}})])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h1',{staticClass:"big-title"},[_vm._v("Deposit Cancelled")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please retrieve your cash below.")])])]),_vm._v(" "),_c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"src":"assets/cash.png"}})])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -12441,6 +12441,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],26:[function(require,module,exports){
 ;(function(){
+//
 //
 //
 //
@@ -12487,7 +12488,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(this.$route.params.Message))]),_vm._v(" "),_vm._m(0)]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(this.$route.params.Message))]),_vm._v(" "),_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(this.$route.params.balance))]),_vm._v(" "),_vm._m(0)]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"column col-lg-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Would you like to perform any other transactions today?")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12768,7 +12769,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account + '!'}}) 
+      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3))+20).toFixed(2)), Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/retrieveCash') 
@@ -12785,7 +12786,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Deposit $20.00 into "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Deposit $20.00 into "+_vm._s(this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1))+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12945,7 +12946,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account + '!'}}) 
+      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)), Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 
@@ -12962,7 +12963,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Withdraw "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" from "+_vm._s(this.$route.params.account)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"text-center"},[_c('h1',{staticClass:"big-title"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',{staticClass:"sub-title"},[_vm._v("Withdraw "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" from "+_vm._s(this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1))+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -13007,7 +13008,7 @@ module.exports = {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'withdrawCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue }}) 
       }
       
     },
