@@ -1,4 +1,269 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.BankMachine = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.BankMachine = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],2:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":1,"timers":2}],3:[function(require,module,exports){
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -243,7 +508,7 @@ exports.reload = tryWrap(function (id, options) {
   })
 })
 
-},{}],2:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 (function (process){
 /**
   * vue-router v3.0.1
@@ -2872,8 +3137,8 @@ if (inBrowser && window.Vue) {
 module.exports = VueRouter;
 
 }).call(this,require('_process'))
-},{"_process":34}],3:[function(require,module,exports){
-(function (process,global){
+},{"_process":1}],5:[function(require,module,exports){
+(function (process,global,setImmediate){
 /*!
  * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
@@ -10909,8 +11174,8 @@ if (inBrowser) {
 
 module.exports = Vue;
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":34}],4:[function(require,module,exports){
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+},{"_process":1,"timers":2}],6:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 function noop () {}
@@ -10935,44 +11200,83 @@ exports.insert = function (css) {
   }
 }
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".numpad {\n  width: 320px;\n  padding: 0px;\n}\n.numpad .btn {\n  width: 100px;\n  height: 100px;\n  font-size: 36px;\n  margin: 10px;\n}\n.numpad input {\n  width: 320px;\n  height: 60px;\n  margin: 0px;\n  font-size: 36px;\n  text-align: right; \n  pointer-events: none;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
-      rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['<', 0, 'X']],
+      rows: [[1,2,3], [4,5,6], [7,8,9], ['<', 0, 'X']],
       input: ''
-    };
+    }
   },
-
   props: ['pin-format'],
   methods: {
-    formatCents: function formatCents(cents) {
-      if (this.pinFormat === 'true') {
-        return new Array(cents.length).fill('•').join('');
-      } else if (cents.length === 0) {
-        return '0.00';
-      } else if (cents.length <= 2) {
-        return '0.00'.slice(0, -cents.length) + cents;
-      } else {
+    formatCents (cents) {
+      if (this.pinFormat==='true'){
+        return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (cents.length === 0) {
+        return '0.00'
+      } 
+
+      else if (cents.length <= 2) {
+        return '0.00'.slice(0,-cents.length) + cents
+      } 
+
+      else {
         return (cents / 100).toFixed(2);
       }
     },
-    press: function press(el) {
+    press (el) {
       if (el === '<') {
-        this.input = this.input.slice(0, this.input.length - 1);
+        this.input = this.input.slice(0,this.input.length-1)//(1)
       } else if (el === 'X') {
-        this.input = '';
+        this.input = ''
       } else {
-        if (this.pinFormat === 'true' && this.input.length >= 4) return;
-        this.input = this.input + el;
+        if (this.pinFormat==='true' && this.input.length >= 4) return
+        this.input = this.input + el //switch order
       }
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -10985,12 +11289,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-dcae3fec", __vue__options__)
+    hotAPI.createRecord("data-v-d4ab7e62", __vue__options__)
   } else {
-    hotAPI.reload("data-v-dcae3fec", __vue__options__)
+    hotAPI.reload("data-v-d4ab7e62", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],6:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
 const Vue = require('vue')
 const VueRouter = require('vue-router')
 
@@ -11051,7 +11355,7 @@ const routes = [
   { path: '/transferAmount', name: 'transferAmount', component: transferAmount},
   { path: '/verifyTransfer', name: 'verifyTransfer', component: verifyTransfer},
   { path: '/confirmNewPin', name: 'confirmNewPin', component: confirmNewPin},
-  { path: '/accountHistory', component: AccountHistory}
+  { path: '/accountHistory', name: 'accountHistory', component: AccountHistory}
 ]
 const router = new VueRouter({
   routes // short for `routes: routes`
@@ -11063,23 +11367,39 @@ const app = new Vue({
   }
 }).$mount('#app')
 
-},{"./views/accountHistory.vue":7,"./views/changePin.vue":8,"./views/confirmNewPin.vue":9,"./views/deposit.vue":10,"./views/etransfer.vue":11,"./views/etransferAmount.vue":12,"./views/history.vue":13,"./views/insertCash.vue":14,"./views/login/fake-card.vue":15,"./views/login/pin.vue":16,"./views/logout.vue":17,"./views/main-menu.vue":18,"./views/moveMoney.vue":19,"./views/nav.vue":20,"./views/prettyReceipt.vue":21,"./views/receipt.vue":22,"./views/success.vue":23,"./views/transferAccount.vue":24,"./views/transferAccountTo.vue":25,"./views/transferAmount.vue":26,"./views/verifyDeposit.vue":27,"./views/verifyEtransfer.vue":28,"./views/verifyTransfer.vue":29,"./views/verifyWithdraw.vue":30,"./views/withdraw.vue":31,"./views/withdrawCash.vue":32,"./views/withdrawDeposit.vue":33,"vue":3,"vue-router":2}],7:[function(require,module,exports){
+},{"./views/accountHistory.vue":9,"./views/changePin.vue":10,"./views/confirmNewPin.vue":11,"./views/deposit.vue":12,"./views/etransfer.vue":13,"./views/etransferAmount.vue":14,"./views/history.vue":15,"./views/insertCash.vue":16,"./views/login/fake-card.vue":17,"./views/login/pin.vue":18,"./views/logout.vue":19,"./views/main-menu.vue":20,"./views/moveMoney.vue":21,"./views/nav.vue":22,"./views/prettyReceipt.vue":23,"./views/receipt.vue":24,"./views/success.vue":25,"./views/transferAccount.vue":26,"./views/transferAccountTo.vue":27,"./views/transferAmount.vue":28,"./views/verifyDeposit.vue":29,"./views/verifyEtransfer.vue":30,"./views/verifyTransfer.vue":31,"./views/verifyWithdraw.vue":32,"./views/withdraw.vue":33,"./views/withdrawCash.vue":34,"./views/withdrawDeposit.vue":35,"vue":5,"vue-router":4}],9:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h1',{staticClass:"red"},[_vm._v("Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("Done")])],1)])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h1',{staticClass:"red"},[_vm._v("Transactions")]),_vm._v(" "),_c('h2',[_vm._v("Account: "+_vm._s(this.$route.params.account))]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("Done")])],1)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11087,39 +11407,67 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c2d54318", __vue__options__)
+    hotAPI.createRecord("data-v-2de84989", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-c2d54318", __vue__options__)
+    hotAPI.reload("data-v-2de84989", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],8:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../components/numpad.vue');
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      var pin = this.$refs.pad.input.split('');
-      this.$router.push({ name: 'confirmNewPin', params: { newPin: pin } });
+    submit () {
+      const pin = this.$refs.pad.input.split('')//.reverse()
+      this.$router.push({name: 'confirmNewPin', params: { newPin: pin }}) 
     }
   },
-  mounted: function mounted() {
-    if (this.$route.params.Error) {
-      var errorBox = document.getElementById('errorBox');
-      errorBox.style.display = 'block';
+  mounted(){
+    if(this.$route.params.Error){
+      var errorBox=document.getElementById('errorBox');
+      errorBox.style.display='block';
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11132,53 +11480,80 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d6a75df0", __vue__options__)
+    hotAPI.createRecord("data-v-489e0cd3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-d6a75df0", __vue__options__)
+    hotAPI.reload("data-v-489e0cd3", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],9:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],11:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../components/numpad.vue');
+
+const NumPad = require('./../components/numpad.vue')
 
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-
-      var pin = this.$refs.pad.input.split('');
-
-      var checker = true;
-
-      if (this.$route.params.newPin.length !== pin.length) {
-        checker = false;
-      } else {
+    submit () {
+      
+      const pin = this.$refs.pad.input.split('')//.reverse()
+      
+      var checker=true;
+      
+      if(this.$route.params.newPin.length !== pin.length){
+        checker=false;
+      }
+      else{
         var i;
-        for (i = 0; i < this.$route.params.newPin.length; i++) {
-          if (this.$route.params.newPin[i] !== pin[i]) {
-            checker = false;
+        for(i=0; i<this.$route.params.newPin.length; i++ ){
+          if(this.$route.params.newPin[i] !== pin[i]){
+            checker=false;
           }
-        }
+        }     
       }
 
-      if (checker) {
-        this.$router.push({ name: 'success', params: { Message: 'Your pin has been successfully changed!' } });
-      } else {
-        this.$router.push({ name: 'changePin', params: { Error: true } });
+      if(checker){
+        this.$router.push({name: 'success', params: { Message: 'Your pin has been successfully changed!'}}) 
       }
+      else{
+        this.$router.push({name: 'changePin', params: { Error: true}}) 
+        
+      }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
+
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11191,55 +11566,78 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-56b0f278", __vue__options__)
+    hotAPI.createRecord("data-v-0079d0c3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-56b0f278", __vue__options__)
+    hotAPI.reload("data-v-0079d0c3", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],10:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],12:[function(require,module,exports){
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var currentBox = '';
-var savedValue = '';
+var currentBox='';
+var savedValue='';
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      if (currentBox !== '') {
-        savedValue = currentBox;
-        currentBox = '';
-        this.$router.push({ name: 'insertCash', params: { account: savedValue.slice(0, savedValue.lastIndexOf("-") - 1) } });
+    submit () {
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'insertCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
       }
+      
     },
-
-    selectBox: function selectBox(event) {
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
           all[i].style.backgroundColor = '#007bff';
-          all[i].style.borderColor = '#007bff';
+			    all[i].style.borderColor = '#007bff';
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
-        event.target.style.borderColor = '#00bfff';
-        currentBox = event.target.innerHTML;
+		    event.target.style.borderColor = '#00bfff';
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
       }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11251,53 +11649,78 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-10b55a21", __vue__options__)
+    hotAPI.createRecord("data-v-00e98cac", __vue__options__)
   } else {
-    hotAPI.reload("data-v-10b55a21", __vue__options__)
+    hotAPI.reload("data-v-00e98cac", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1}],11:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],13:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var currentBox = '';
-var savedValue = '';
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
-    submit: function submit() {
-      if (currentBox !== '') {
-        savedValue = currentBox;
-        currentBox = '';
-        this.$router.push({ name: 'etransferAmount', params: { payTo: savedValue } });
+    submit () {
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'etransferAmount', params: { payTo: savedValue }}) 
       }
+      
     },
-
-    selectBox: function selectBox(event) {
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-          all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#bfbfbf';
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
-        currentBox = event.target.innerHTML;
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
       }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11310,32 +11733,52 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ea4e61da", __vue__options__)
+    hotAPI.createRecord("data-v-3eca8ade", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-ea4e61da", __vue__options__)
+    hotAPI.reload("data-v-3eca8ade", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],12:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],14:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../components/numpad.vue');
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'verifyEtransfer', params: { amount: this.$refs.pad.input, payTo: this.$route.params.payTo } });
+    submit () {
+      this.$router.push({name: 'verifyEtransfer', params: { amount: this.$refs.pad.input, payTo: this.$route.params.payTo }}) 
+      
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11348,46 +11791,81 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a7a2f16a", __vue__options__)
+    hotAPI.createRecord("data-v-0738fed6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-a7a2f16a", __vue__options__)
+    hotAPI.reload("data-v-0738fed6", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],13:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],15:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
+var currentBox='';
+var savedValue='';
 module.exports = {
-  methods: {
-    submit: function submit() {
-      this.$router.push('/accountHistory');
-    },
 
-    selectBox: function selectBox(event) {
+  methods: {
+    submit () {
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'accountHistory', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1)}})
+      }
+    },
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-          all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#bfbfbf';
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
+
       }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11400,27 +11878,50 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-35aa3d17", __vue__options__)
+    hotAPI.createRecord("data-v-25de6fa2", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-35aa3d17", __vue__options__)
+    hotAPI.reload("data-v-25de6fa2", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],14:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],16:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  mounted: function mounted() {
-    var self = this;
-    function route() {
-      window.removeEventListener('click', route);
 
-      self.$router.push({ name: 'verifyDeposit', params: { account: self.$route.params.account } });
+  mounted () {
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      //self.$router.push('/verifyDeposit')
+      self.$router.push({name: 'verifyDeposit', params: { account: self.$route.params.account }})  
     }
-    window.addEventListener('click', route);
+    window.addEventListener('click', route)
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11433,26 +11934,47 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7eb81e59", __vue__options__)
+    hotAPI.createRecord("data-v-48fddbee", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7eb81e59", __vue__options__)
+    hotAPI.reload("data-v-48fddbee", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],15:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  mounted: function mounted() {
-    var self = this;
-    function route() {
-      window.removeEventListener('click', route);
-      self.$router.push('/pin');
+  mounted () {
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      self.$router.push('/pin') 
     }
-    window.addEventListener('click', route);
+    window.addEventListener('click', route)
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11465,35 +11987,63 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-28ee7de5", __vue__options__)
+    hotAPI.createRecord("data-v-37f56663", __vue__options__)
   } else {
-    hotAPI.reload("data-v-28ee7de5", __vue__options__)
+    hotAPI.reload("data-v-37f56663", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],16:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".submit-btn {\n  position: absolute;\n  top: 35%;\n  left: 30px;\n  width: 100px;\n  height: 100px;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../../components/numpad.vue');
+const NumPad = require('./../../components/numpad.vue')
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      var pin = this.$refs.pad.input.split('');
-      var correctPin = ['1', '2', '3', '4'];
+    submit () {
+      const pin = this.$refs.pad.input.split('')//.reverse()
+      const correctPin = ['1', '2', '3', '4'] // lmao
 
-      this.$router.push('/main-menu');
+      this.$router.push('/main-menu') 
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"true"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn",on:{"click":_vm.submit}},[_vm._v("Submit")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"container"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"true"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h2',[_vm._v("Please enter your PIN:")])])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11501,25 +12051,36 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b391f39c", __vue__options__)
+    hotAPI.createRecord("data-v-c684b5a0", __vue__options__)
   } else {
-    hotAPI.reload("data-v-b391f39c", __vue__options__)
+    hotAPI.reload("data-v-c684b5a0", __vue__options__)
   }
 })()}
-},{"./../../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],17:[function(require,module,exports){
+},{"./../../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],19:[function(require,module,exports){
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  mounted: function mounted() {
-    var self = this;
-    function route() {
-      window.removeEventListener('click', route);
-      self.$router.push('/');
+  mounted () {
+    const self = this
+    function route () {
+      window.removeEventListener('click', route)
+      self.$router.push('/') 
     }
-    window.addEventListener('click', route);
+    window.addEventListener('click', route)
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11531,17 +12092,42 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0c8db9d7", __vue__options__)
+    hotAPI.createRecord("data-v-2d1389ec", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-0c8db9d7", __vue__options__)
+    hotAPI.reload("data-v-2d1389ec", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1}],18:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],20:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-module.exports = {};
+module.exports = {
+
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11554,23 +12140,39 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5e6a9f36", __vue__options__)
+    hotAPI.createRecord("data-v-125c5b01", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-5e6a9f36", __vue__options__)
+    hotAPI.reload("data-v-125c5b01", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],19:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],21:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
       msg: 'How would you like to transfer money?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11583,38 +12185,87 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2f22589c", __vue__options__)
+    hotAPI.createRecord("data-v-c73ee106", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-2f22589c", __vue__options__)
+    hotAPI.reload("data-v-c73ee106", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],20:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],22:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".navbar {\n  padding: 20px;\n  height: 100px;\n  background: blue;\n}\n.nav .btn {\n  font-size: 24px;\n  padding: 10px 20px 10px 20px;\n}\n\n.logo {\n  color: white;\n}")
 ;(function(){
-"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
-      noBackRoutes: ["/", "/#/", "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw", "/verifyTransfer", "/verifyEtransfer", "/success", "/prettyReceipt", "/success"],
+      noBackRoutes: [
+        "/","/#/" , "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw",
+        "/verifyTransfer","/verifyEtransfer","/success", "/prettyReceipt",
+        "/success", "/main-menu", "/receipt"
+      ],
       isHome: this.$router.currentRoute.path == "/",
       isLoggedIn: false
-    };
+    }
   },
-
   watch: {
-    '$route': function $route(to, from) {
-      this.isHome = this.noBackRoutes.indexOf(to.path) !== -1;
-      if (to.path == '/logout') this.isLoggedIn = false;
-      if (to.path == '/main-menu') this.isLoggedIn = true;
+    '$route' (to, from) {
+      this.isHome = this.noBackRoutes.indexOf(to.path) !== -1
+      if (to.path == '/logout') this.isLoggedIn = false
+      if (to.path == '/verifyWithdraw') this.isLoggedIn = false
+      if (to.path == '/success') this.isLoggedIn = false
+      if (to.path == '/receipt') this.isLoggedIn = false
+      if (to.path == '/prettyReceipt') this.isLoggedIn = false
+      if (to.path == '/insertCash') this.isLoggedIn = false
+      if (to.path == '/verifyDeposit') this.isLoggedIn = false
+      if (to.path == '/verifyEtransfer') this.isLoggedIn = false
+      if (to.path == '/main-menu') this.isLoggedIn = true
     }
   },
   methods: {
-    goBack: function goBack() {
-      window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+    goBack () {
+      window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
     }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11627,28 +12278,41 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2b8bcfa6", __vue__options__)
+    hotAPI.createRecord("data-v-9186009e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-2b8bcfa6", __vue__options__)
+    hotAPI.reload("data-v-9186009e", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],21:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],23:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v("Receipt printed")]),_vm._v(" "),_c('router-link',{staticClass:"physical-btn btn-primary btn",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("Continue")])],1)])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v("Receipt printed")]),_vm._v(" "),_c('router-link',{staticClass:"physical-btn btn-primary btn",attrs:{"tag":"button","to":"/logout"}},[_vm._v("Continue")])],1)])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11656,113 +12320,209 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8c6713b6", __vue__options__)
+    hotAPI.createRecord("data-v-63955470", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-8c6713b6", __vue__options__)
+    hotAPI.reload("data-v-63955470", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],22:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],24:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
-
-module.exports = {
-  data: function data() {
-    return {
-      msg: 'Foo'
-    };
-  }
-};
-})()
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
-if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v("Would you like a receipt?")]),_vm._v(" "),_c('router-link',{staticClass:"physical-btn btn-primary btn",attrs:{"tag":"button","to":"/prettyReceipt"}},[_vm._v("Yes")]),_vm._v(" "),_c('router-link',{staticClass:"physical-btn btn-danger btn",attrs:{"tag":"button","to":"/"}},[_vm._v("No")])],1)])}
-__vue__options__.staticRenderFns = []
-if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cc354e8a", __vue__options__)
-  } else {
-    hotAPI.rerender("data-v-cc354e8a", __vue__options__)
-  }
-})()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],23:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
-;(function(){
-'use strict';
-
-module.exports = {
-  data: function data() {
-    return {
-      msg: 'Foo'
-    };
-  }
-};
-})()
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
-if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v(_vm._s(this.$route.params.Message))]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary",attrs:{"tag":"button","to":"/main-menu"}},[_vm._v("More Transactions")]),_vm._v(" "),_c('router-link',{staticClass:"btn btn-primary",attrs:{"tag":"button","to":"/receipt"}},[_vm._v("Receipt")])],1)])}
-__vue__options__.staticRenderFns = []
-if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-55d36df4", __vue__options__)
-  } else {
-    hotAPI.rerender("data-v-55d36df4", __vue__options__)
-  }
-})()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],24:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  margin-left: 4%;\n}")
-;(function(){
-'use strict';
-
-var fromCurrentBox = '';
-var fromSavedValue = '';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      if (fromCurrentBox !== '') {
-        fromSavedValue = fromCurrentBox;
-        fromCurrentBox = '';
-
-        this.$router.push({ name: 'transferAccountTo', params: { fromAccount: fromSavedValue.slice(0, fromSavedValue.lastIndexOf("-") - 1) } });
-      }
+    submit () {
+      this.$router.push({path: '/prettyReceipt'}) 
     },
+    cancel () {
+      this.$router.push({path: '/logout'}) 
+    }
+  },
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
 
-    selectBox: function selectBox(event) {
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])}
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v("Would you like a receipt?")])])}]
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ebcce974", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-ebcce974", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],25:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+module.exports = {
+  methods: {
+    submit () {
+      this.$router.push({path: '/main-menu'}) 
+    },
+    cancel () {
+      this.$router.push({path: '/receipt'}) 
+    }
+  },
+  data () {
+    return {
+      msg: 'Foo'
+    }
+  }
+}
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row"},[_c('div',{staticClass:"column col-lg-12 centered"},[_c('h2',[_vm._v(_vm._s(this.$route.params.Message))]),_vm._v(" "),_c('h4',[_vm._v("Would you like to do more transactions?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  module.hot.dispose(__vueify_style_dispose__)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-756b08de", __vue__options__)
+  } else {
+    hotAPI.reload("data-v-756b08de", __vue__options__)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],26:[function(require,module,exports){
+var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  margin-left: 4%;\n}")
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var fromCurrentBox='';
+var fromSavedValue='';
+
+module.exports = {
+  methods: {
+    submit () {
+      if(fromCurrentBox !== ''){
+        fromSavedValue=fromCurrentBox;
+        fromCurrentBox='';
+
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue}}) 
+      }
+      
+    },
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-          all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#bfbfbf';
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
-        fromCurrentBox = event.target.innerHTML;
+        fromCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
       }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11775,55 +12535,95 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2efdb245", __vue__options__)
+    hotAPI.createRecord("data-v-ebefac60", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-2efdb245", __vue__options__)
+    hotAPI.reload("data-v-ebefac60", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],25:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],27:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh2{\n  margin-left: 4%;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var toCurrentBox = '';
-var toSavedValue = '';
+var toCurrentBox='';
+var toSavedValue='';
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      if (toCurrentBox !== '') {
-        toSavedValue = toCurrentBox;
-        toCurrentBox = '';
+    submit () {
+      if(toCurrentBox !== ''){
+        toSavedValue=toCurrentBox;
+        toCurrentBox='';
 
-        this.$router.push({ name: 'transferAmount', params: { fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue.slice(0, toSavedValue.lastIndexOf("-") - 1) } });
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
       }
+      
     },
-
-    selectBox: function selectBox(event) {
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-          all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#bfbfbf';
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
-        toCurrentBox = event.target.innerHTML;
+        toCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
+      }
+
+    }
+  },
+  mounted(){
+    var all = document.getElementsByClassName("accountBox");
+    var i;
+    for(i=0;i<all.length; i++){
+      if(this.$route.params.fromAccount === all[i].innerHTML){
+        all[i].style.display='none';
       }
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11836,32 +12636,51 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b2a07fc0", __vue__options__)
+    hotAPI.createRecord("data-v-68fa80eb", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-b2a07fc0", __vue__options__)
+    hotAPI.reload("data-v-68fa80eb", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],26:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],28:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../components/numpad.vue');
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'verifyTransfer', params: { amount: this.$refs.pad.input, fromAccount: this.$route.params.fromAccount, toAccount: this.$route.params.toAccount } });
+    submit () {
+      this.$router.push({name: 'verifyTransfer', params: { amount: this.$refs.pad.input, fromAccount: this.$route.params.fromAccount, toAccount: this.$route.params.toAccount }}) 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Foo'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11874,31 +12693,58 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1e7842f0", __vue__options__)
+    hotAPI.createRecord("data-v-a469a3f6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1e7842f0", __vue__options__)
+    hotAPI.reload("data-v-a469a3f6", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],27:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],29:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: ' + this.$route.params.account + '!' } });
+    submit () {
+      this.$router.push({name: 'success', params: { Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account + '!'}}) 
     },
-    cancel: function cancel() {
-      this.$router.push('/main-menu');
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Are you sure?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11911,28 +12757,54 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-70a1c7a8", __vue__options__)
+    hotAPI.createRecord("data-v-1a6aa5f3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-70a1c7a8", __vue__options__)
+    hotAPI.reload("data-v-1a6aa5f3", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],28:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],30:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'success', params: { Message: 'You have successfully E-transferred $' + (this.$route.params.amount / 100).toFixed(2) + ' to recipient: ' + this.$route.params.payTo + '!' } });
+    submit () {
+      this.$router.push({name: 'success', params: { Message: 'You have successfully E-transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' to recipient: '+ this.$route.params.payTo + '!'}}) 
+    },
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Are you sure?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -11945,36 +12817,61 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-bd40124c", __vue__options__)
+    hotAPI.createRecord("data-v-072b2336", __vue__options__)
   } else {
-    hotAPI.reload("data-v-bd40124c", __vue__options__)
+    hotAPI.reload("data-v-072b2336", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],29:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount / 100).toFixed(2) + ' from account: ' + this.$route.params.fromAccount + ' to account: ' + this.$route.params.toAccount + '!' } });
+    submit () {
+      this.$router.push({name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' to account: '+ this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + '!'}}) 
     },
-    cancel: function cancel() {
-      this.$router.push('/main-menu');
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Are you sure?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Transfer "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" from "+_vm._s(this.$route.params.fromAccount)+" to "+_vm._s(this.$route.params.toAccount)+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',{staticClass:"red"},[_vm._v(_vm._s(_vm.msg))]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-12"},[_c('h2',[_vm._v("Transfer "+_vm._s("$" +(this.$route.params.amount/100).toFixed(2))+" from "+_vm._s(this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1))+" to "+_vm._s(this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1))+"?")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])]),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-danger physical-btn checkmark",on:{"click":_vm.cancel}},[_vm._v("X")])])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -11982,31 +12879,62 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-150eadd1", __vue__options__)
+    hotAPI.createRecord("data-v-b73cce34", __vue__options__)
   } else {
-    hotAPI.reload("data-v-150eadd1", __vue__options__)
+    hotAPI.reload("data-v-b73cce34", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],30:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],32:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}\n\nh1, h2{\n  text-align: center;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 module.exports = {
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'success', params: { Message: 'You have successfully withdrawn $' + (this.$route.params.amount / 100).toFixed(2) + ' from account: ' + this.$route.params.account + '!' } });
+    submit () {
+      this.$router.push({name: 'success', params: { Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.account + '!'}}) 
     },
-    cancel: function cancel() {
-      this.$router.push('/main-menu');
+    cancel () {
+      this.$router.push('/main-menu') 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Are you sure?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -12019,54 +12947,78 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-14034d20", __vue__options__)
+    hotAPI.createRecord("data-v-f55d76f6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-14034d20", __vue__options__)
+    hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],31:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],33:[function(require,module,exports){
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var currentBox = '';
-var savedValue = '';
+var currentBox='';
+var savedValue='';
 module.exports = {
   methods: {
-    submit: function submit() {
-      if (currentBox !== '') {
-        savedValue = currentBox;
-        currentBox = '';
-        this.$router.push({ name: 'withdrawCash', params: { account: savedValue.slice(0, savedValue.lastIndexOf("-") - 1) } });
+    submit () {
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'withdrawCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
       }
+      
     },
-
-    selectBox: function selectBox(event) {
+    selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-          all[i].style.backgroundColor = '#007bff';
-          all[i].style.borderColor = "#007bff";
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = "#007bff";
         }
-
+        
         event.target.style.backgroundColor = '#00bfff';
-        event.target.style.borderColor = '#00bfff';
-        currentBox = event.target.innerHTML;
+		event.target.style.borderColor = '#00bfff';
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
         for (j = 0; j < displayCheck.length; j++) {
-          displayCheck[j].style.display = 'block';
+            displayCheck[j].style.display = 'block';
         }
+
       }
+
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'Withdraw Cash'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -12078,32 +13030,54 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-585d1617", __vue__options__)
+    hotAPI.createRecord("data-v-6eaf34ec", __vue__options__)
   } else {
-    hotAPI.reload("data-v-585d1617", __vue__options__)
+    hotAPI.reload("data-v-6eaf34ec", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1}],32:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],34:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var NumPad = require('./../components/numpad.vue');
+const NumPad = require('./../components/numpad.vue')
 module.exports = {
   components: {
-    NumPad: NumPad
+    NumPad
   },
   methods: {
-    submit: function submit() {
-      this.$router.push({ name: 'verifyWithdraw', params: { amount: this.$refs.pad.input, account: this.$route.params.account } });
+    submit () {
+      this.$router.push({name: 'verifyWithdraw', params: { amount: this.$refs.pad.input, account: this.$route.params.account }}) 
     }
   },
-  data: function data() {
+  data () {
     return {
       msg: 'How Much Would You Like to Withdraw?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -12116,23 +13090,41 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-44934c6a", __vue__options__)
+    hotAPI.createRecord("data-v-d7400e82", __vue__options__)
   } else {
-    hotAPI.reload("data-v-44934c6a", __vue__options__)
+    hotAPI.reload("data-v-d7400e82", __vue__options__)
   }
 })()}
-},{"./../components/numpad.vue":5,"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],33:[function(require,module,exports){
+},{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],35:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n  color: red;\n}")
 ;(function(){
-'use strict';
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 module.exports = {
-  data: function data() {
+  data () {
     return {
       msg: 'Which would you like to do today?'
-    };
+    }
   }
-};
+}
+
 })()
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
@@ -12145,196 +13137,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-452f1c92", __vue__options__)
+    hotAPI.createRecord("data-v-3872e942", __vue__options__)
   } else {
-    hotAPI.reload("data-v-452f1c92", __vue__options__)
+    hotAPI.reload("data-v-3872e942", __vue__options__)
   }
 })()}
-},{"vue":3,"vue-hot-reload-api":1,"vueify/lib/insert-css":4}],34:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}]},{},[6])(6)
+},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}]},{},[8])(8)
 });

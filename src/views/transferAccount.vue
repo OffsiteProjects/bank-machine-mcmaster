@@ -39,7 +39,7 @@ module.exports = {
         fromSavedValue=fromCurrentBox;
         fromCurrentBox='';
 
-        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue.slice(0,fromSavedValue.lastIndexOf("-")-1)}}) 
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue}}) 
       }
       
     },

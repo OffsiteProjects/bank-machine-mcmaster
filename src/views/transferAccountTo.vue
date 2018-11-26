@@ -39,7 +39,7 @@ module.exports = {
         toSavedValue=toCurrentBox;
         toCurrentBox='';
 
-        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue.slice(0,toSavedValue.lastIndexOf("-")-1) }}) 
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
       }
       
     },
@@ -61,6 +61,15 @@ module.exports = {
         }
       }
 
+    }
+  },
+  mounted(){
+    var all = document.getElementsByClassName("accountBox");
+    var i;
+    for(i=0;i<all.length; i++){
+      if(this.$route.params.fromAccount === all[i].innerHTML){
+        all[i].style.display='none';
+      }
     }
   },
   data () {

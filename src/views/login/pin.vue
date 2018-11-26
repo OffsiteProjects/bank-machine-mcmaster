@@ -20,7 +20,7 @@
         <num-pad pin-format=true ref="pad"></num-pad>
       </div>
       <div class="col-sm-4">
-        <button v-on:click="submit" class="btn submit-btn btn-success physical-btn">Submit</button>
+        <button v-on:click="submit" class="btn submit-btn btn-success physical-btn checkmark">&#10003</button>
       </div>
     </div>
   </div>

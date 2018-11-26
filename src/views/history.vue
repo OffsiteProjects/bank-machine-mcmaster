@@ -25,10 +25,17 @@
 </template>
 
 <script>
+var currentBox='';
+var savedValue='';
 module.exports = {
+
   methods: {
     submit () {
-      this.$router.push('/accountHistory') 
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'accountHistory', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1)}})
+      }
     },
     selectBox: function (event) {
       if (event) {
@@ -39,6 +46,7 @@ module.exports = {
         }
         
         event.target.style.backgroundColor = '#00bfff';
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;
