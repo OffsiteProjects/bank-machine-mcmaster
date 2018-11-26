@@ -3,14 +3,15 @@
 </style>
 
 <template>
+<div>
+  <div class="text-center">
+    <h1 class="big-title">{{ this.$route.params.Message }}</h1>
+    <div class="column col-lg-12">
+      <h2 class="sub-title">Would you like to perform any other transactions today?</h2>
 
-<div class="text-center">
-  <h1 class="big-title">{{ this.$route.params.Message }}</h1>
-  <div class="column col-lg-12">
-    <h2 class="sub-title">Would you like to perform any other transactions today?</h2>
-
+    </div>
+      
   </div>
-
   <div class="buttonBox">
     <button v-on:click="submit" class="btn btn-success physical-btn checkmark">&#10003</button>
   </div>
@@ -18,7 +19,6 @@
   <div class="buttonBox">
     <button v-on:click="cancel" class="btn btn-danger physical-btn checkmark">X</button>
   </div>
-    
 </div>
 </template>
 
