@@ -8,7 +8,8 @@
   <div>
     <div class="row text-center">
       <div class="col-sm">
-        <h2>Please enter your card</h2>
+	  <h1 class="big-title">Welcome to Bank!</h1>
+        <h2 class="sub-title">Please insert your card<br>or enter your account number below</h2>
       </div>
     </div>
     <div class="row text-center">

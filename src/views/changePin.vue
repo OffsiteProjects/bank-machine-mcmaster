@@ -1,19 +1,16 @@
 <style>
-  .red {
-    color: red;
-  }
+
 </style>
 
 <template>
-  <div>
+  <div class="text-center">
     <div id="errorBox">
-      The two pins that you entered did not match! 
+      The two PINs that you entered did not match! 
       <br>
       Please try again.
     </div>
 
-    <h1 class="red">Input New Pin:</h1>
-
+    <h1 class="big-title">Enter New PIN</h1>
     <div class="row">
       <div class="col-sm-8">
         <num-pad pin-format=true ref="pad"></num-pad>
