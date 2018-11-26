@@ -27,7 +27,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)), Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
+      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3).replace(',',''))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)), Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

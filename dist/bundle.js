@@ -12769,7 +12769,7 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3))+20).toFixed(2)), Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
+      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3).replace(',',''))+20).toFixed(2)), Message: 'You have successfully deposited $20.00 into account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/retrieveCash') 
@@ -12886,7 +12886,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' to account: '+ this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + '!'}}) 
+      this.$router.push({name: 'success', params: {balance: this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.fromAccount.slice(this.$route.params.fromAccount.lastIndexOf("-")+3).replace(',',''))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)) + '. '+this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.toAccount.slice(this.$route.params.toAccount.lastIndexOf("-")+3).replace(',',''))+Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)) , Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' to account: '+ this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 
@@ -12946,7 +12946,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)), Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
+      this.$router.push({name: 'success', params: { balance: this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.account.slice(this.$route.params.account.lastIndexOf("-")+3).replace(',',''))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)), Message: 'You have successfully withdrawn $' + (this.$route.params.amount/100).toFixed(2)+ "\n"  + 'from account: '+ this.$route.params.account.slice(0,this.$route.params.account.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

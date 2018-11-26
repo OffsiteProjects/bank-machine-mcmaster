@@ -27,7 +27,7 @@
 module.exports = {
   methods: {
     submit () {
-      this.$router.push({name: 'success', params: { Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' to account: '+ this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + '!'}}) 
+      this.$router.push({name: 'success', params: {balance: this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.fromAccount.slice(this.$route.params.fromAccount.lastIndexOf("-")+3).replace(',',''))-Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)) + '. '+this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + ' has a balance of $' + String((Number(this.$route.params.toAccount.slice(this.$route.params.toAccount.lastIndexOf("-")+3).replace(',',''))+Number((this.$route.params.amount/100).toFixed(2))).toFixed(2)) , Message: 'You have successfully transferred $' + (this.$route.params.amount/100).toFixed(2)+ ' from account: '+ this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1) + ' to account: '+ this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1) + '!'}}) 
     },
     cancel () {
       this.$router.push('/main-menu') 

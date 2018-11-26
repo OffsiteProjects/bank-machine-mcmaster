@@ -6,7 +6,7 @@
 <div class="row">
   <div class="text-center">
     <h1 class="big-title">{{ this.$route.params.Message }}</h1>
-    <h1 class="big-title">{{ this.$route.params.balance }}</h1>
+    <h2 class="big-title">{{ this.$route.params.balance }}</h2>
     <div class="column col-lg-12">
       <h2 class="sub-title">Would you like to perform any other transactions today?</h2>
 
