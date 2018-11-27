@@ -11248,11 +11248,42 @@ module.exports = {
       input: ''
     }
   },
-  props: ['pin-format'],
+  props: ['pin-format', 'homepage'],
   methods: {
     formatCents (cents) {
       if (this.pinFormat==='true'){
         return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (this.homepage==='true'){
+        var lengthString= cents.length;
+        var leftOver=lengthString%4;
+        if(leftOver==1) {
+          leftOver=3
+        }
+        else if(leftOver==3) {
+          leftOver=1
+        }
+        var i;
+        var addOn='';
+        for(i=0; i<leftOver; i++){
+          addOn=addOn+'X';
+        }
+        addOn.slice(0,addOn.length-2);
+        if(cents.length==0){
+          return 'XXXX-XXXX-XXXX';
+        } 
+
+        if (cents.length <= 4) {
+          return String(cents) + addOn+'-XXXX-XXXX';
+        } 
+
+        else if (cents.length <= 8) {
+          return cents.slice(0,4)+'-'+cents.slice(4,8-leftOver)+ addOn + '-XXXX';
+        } 
+
+        else {
+          return cents.slice(0,4) + '-'+cents.slice(4,8) + '-' + cents.slice(8,12-leftOver)+ addOn;
+        }
       }
       else if (cents.length === 0) {
         return '0.00'
@@ -11291,9 +11322,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d30d1b8a", __vue__options__)
+    hotAPI.createRecord("data-v-d4ab7e62", __vue__options__)
   } else {
-    hotAPI.reload("data-v-d30d1b8a", __vue__options__)
+    hotAPI.reload("data-v-d4ab7e62", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
@@ -11438,9 +11469,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5d30909d", __vue__options__)
+    hotAPI.createRecord("data-v-2de84989", __vue__options__)
   } else {
-    hotAPI.reload("data-v-5d30909d", __vue__options__)
+    hotAPI.reload("data-v-2de84989", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],10:[function(require,module,exports){
@@ -11506,9 +11537,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1822a93f", __vue__options__)
+    hotAPI.createRecord("data-v-489e0cd3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1822a93f", __vue__options__)
+    hotAPI.reload("data-v-489e0cd3", __vue__options__)
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],11:[function(require,module,exports){
@@ -11588,9 +11619,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0a42572f", __vue__options__)
+    hotAPI.createRecord("data-v-0079d0c3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-0a42572f", __vue__options__)
+    hotAPI.reload("data-v-0079d0c3", __vue__options__)
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],12:[function(require,module,exports){
@@ -11671,9 +11702,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13825418", __vue__options__)
+    hotAPI.createRecord("data-v-00e98cac", __vue__options__)
   } else {
-    hotAPI.reload("data-v-13825418", __vue__options__)
+    hotAPI.reload("data-v-00e98cac", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],13:[function(require,module,exports){
@@ -11754,9 +11785,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0e4f274a", __vue__options__)
+    hotAPI.createRecord("data-v-3eca8ade", __vue__options__)
   } else {
-    hotAPI.reload("data-v-0e4f274a", __vue__options__)
+    hotAPI.reload("data-v-3eca8ade", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],14:[function(require,module,exports){
@@ -11809,9 +11840,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7e0ccb7c", __vue__options__)
+    hotAPI.createRecord("data-v-0738fed6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-7e0ccb7c", __vue__options__)
+    hotAPI.reload("data-v-0738fed6", __vue__options__)
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],15:[function(require,module,exports){
@@ -11895,9 +11926,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3877370e", __vue__options__)
+    hotAPI.createRecord("data-v-25de6fa2", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3877370e", __vue__options__)
+    hotAPI.reload("data-v-25de6fa2", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],16:[function(require,module,exports){
@@ -11950,9 +11981,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6a0ccd02", __vue__options__)
+    hotAPI.createRecord("data-v-48fddbee", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6a0ccd02", __vue__options__)
+    hotAPI.reload("data-v-48fddbee", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],17:[function(require,module,exports){
@@ -11990,8 +12021,16 @@ var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".red {\n
 //
 //
 //
+//
+//
+//
+//
 
+const NumPad = require('./../../components/numpad.vue')
 module.exports = {
+  components: {
+    NumPad
+  },
   methods: {
     submit () {
       this.$router.push({path: '/pin'}) 
@@ -12012,7 +12051,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._m(0),_vm._v(" "),_vm._m(1),_vm._v(" "),_c('br'),_vm._v(" "),_c('div',{attrs:{"align":"center"}},[_c('h2',{staticClass:"sub-title"},[_vm._v("Input Account Number")]),_vm._v(" "),_c('input',{staticStyle:{"width":"50px"},attrs:{"type":"text","maxlength":"4"}}),_vm._v("-"),_c('input',{staticStyle:{"width":"50px"},attrs:{"type":"text","maxlength":"4"}}),_vm._v("-"),_c('input',{staticStyle:{"width":"50px"},attrs:{"type":"text","maxlength":"4"}}),_vm._v(" "),_c('br'),_vm._v(" "),_c('br'),_vm._v(" "),_c('div',{staticClass:"buttonBox"},[_c('button',{staticClass:"btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._m(0),_vm._v(" "),_vm._m(1),_vm._v(" "),_c('br'),_vm._v(" "),_c('div',{attrs:{"align":"center"}},[_c('h2',{staticClass:"sub-title"},[_vm._v("Input Account Number")]),_vm._v(" "),_c('div',{staticClass:"row"},[_c('div',{staticClass:"col-sm-8"},[_c('num-pad',{ref:"pad",attrs:{"pin-format":"false","homepage":"true"}})],1),_vm._v(" "),_c('div',{staticClass:"col-sm-4"},[_c('button',{staticClass:"btn submit-btn btn-success physical-btn checkmark",on:{"click":_vm.submit}},[_vm._v("✓")])])])])])}
 __vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('h1',{staticClass:"big-title"},[_vm._v("Welcome to Bank!")]),_vm._v(" "),_c('h2',{staticClass:"sub-title"},[_vm._v("Please insert your card"),_c('br'),_vm._v("or enter your account number below")])])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"row text-center"},[_c('div',{staticClass:"col-sm"},[_c('img',{attrs:{"id":"cardImg","src":"assets/card.jpeg"}})])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12020,12 +12059,12 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1c93fc62", __vue__options__)
+    hotAPI.createRecord("data-v-37f56663", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1c93fc62", __vue__options__)
+    hotAPI.reload("data-v-37f56663", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
+},{"./../../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],18:[function(require,module,exports){
 var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert(".submit-btn {\n    position: absolute;\n    top: 35%;\n    left: 30px;\n    width: 100px;\n    height: 100px;\n\tfont-size: 60px;\n\tfont-weight: bold;\n  }")
 ;(function(){
 //
@@ -12088,9 +12127,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6c42419c", __vue__options__)
+    hotAPI.createRecord("data-v-c684b5a0", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6c42419c", __vue__options__)
+    hotAPI.reload("data-v-c684b5a0", __vue__options__)
   }
 })()}
 },{"./../../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],19:[function(require,module,exports){
@@ -12134,9 +12173,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9c63b600", __vue__options__)
+    hotAPI.createRecord("data-v-2d1389ec", __vue__options__)
   } else {
-    hotAPI.reload("data-v-9c63b600", __vue__options__)
+    hotAPI.reload("data-v-2d1389ec", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],20:[function(require,module,exports){
@@ -12182,9 +12221,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3c3e1126", __vue__options__)
+    hotAPI.createRecord("data-v-125c5b01", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3c3e1126", __vue__options__)
+    hotAPI.reload("data-v-125c5b01", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],21:[function(require,module,exports){
@@ -12228,9 +12267,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6be52be9", __vue__options__)
+    hotAPI.createRecord("data-v-c73ee106", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6be52be9", __vue__options__)
+    hotAPI.reload("data-v-c73ee106", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],22:[function(require,module,exports){
@@ -12321,9 +12360,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3bda5d1d", __vue__options__)
+    hotAPI.createRecord("data-v-9186009e", __vue__options__)
   } else {
-    hotAPI.reload("data-v-3bda5d1d", __vue__options__)
+    hotAPI.reload("data-v-9186009e", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],23:[function(require,module,exports){
@@ -12363,9 +12402,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6d5ddadc", __vue__options__)
+    hotAPI.createRecord("data-v-63955470", __vue__options__)
   } else {
-    hotAPI.reload("data-v-6d5ddadc", __vue__options__)
+    hotAPI.reload("data-v-63955470", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],24:[function(require,module,exports){
@@ -12423,9 +12462,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-c69b5a9c", __vue__options__)
+    hotAPI.createRecord("data-v-ebcce974", __vue__options__)
   } else {
-    hotAPI.reload("data-v-c69b5a9c", __vue__options__)
+    hotAPI.reload("data-v-ebcce974", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],25:[function(require,module,exports){
@@ -12479,9 +12518,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-635fd805", __vue__options__)
+    hotAPI.createRecord("data-v-4a48dbf1", __vue__options__)
   } else {
-    hotAPI.reload("data-v-635fd805", __vue__options__)
+    hotAPI.reload("data-v-4a48dbf1", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],26:[function(require,module,exports){
@@ -12540,9 +12579,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-50397a06", __vue__options__)
+    hotAPI.createRecord("data-v-756b08de", __vue__options__)
   } else {
-    hotAPI.reload("data-v-50397a06", __vue__options__)
+    hotAPI.reload("data-v-756b08de", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],27:[function(require,module,exports){
@@ -12627,9 +12666,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-43c8c53c", __vue__options__)
+    hotAPI.createRecord("data-v-ebefac60", __vue__options__)
   } else {
-    hotAPI.reload("data-v-43c8c53c", __vue__options__)
+    hotAPI.reload("data-v-ebefac60", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],28:[function(require,module,exports){
@@ -12721,9 +12760,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-95fc1d52", __vue__options__)
+    hotAPI.createRecord("data-v-68fa80eb", __vue__options__)
   } else {
-    hotAPI.reload("data-v-95fc1d52", __vue__options__)
+    hotAPI.reload("data-v-68fa80eb", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],29:[function(require,module,exports){
@@ -12775,9 +12814,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-45d915ce", __vue__options__)
+    hotAPI.createRecord("data-v-a469a3f6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-45d915ce", __vue__options__)
+    hotAPI.reload("data-v-a469a3f6", __vue__options__)
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3}],30:[function(require,module,exports){
@@ -12839,9 +12878,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-24332c5f", __vue__options__)
+    hotAPI.createRecord("data-v-1a6aa5f3", __vue__options__)
   } else {
-    hotAPI.reload("data-v-24332c5f", __vue__options__)
+    hotAPI.reload("data-v-1a6aa5f3", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],31:[function(require,module,exports){
@@ -12895,9 +12934,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-93a9ec5e", __vue__options__)
+    hotAPI.createRecord("data-v-072b2336", __vue__options__)
   } else {
-    hotAPI.reload("data-v-93a9ec5e", __vue__options__)
+    hotAPI.reload("data-v-072b2336", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],32:[function(require,module,exports){
@@ -12955,15 +12994,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-58ac400c", __vue__options__)
+    hotAPI.createRecord("data-v-b73cce34", __vue__options__)
   } else {
-    hotAPI.reload("data-v-58ac400c", __vue__options__)
+    hotAPI.reload("data-v-b73cce34", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],33:[function(require,module,exports){
-var __vueify_style_dispose__ = require("vueify/lib/insert-css").insert("white-space: pre-line")
 ;(function(){
-//
 //
 //
 //
@@ -13015,14 +13052,13 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.accept()
-  module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-96cce8ce", __vue__options__)
+    hotAPI.createRecord("data-v-f55d76f6", __vue__options__)
   } else {
-    hotAPI.reload("data-v-96cce8ce", __vue__options__)
+    hotAPI.reload("data-v-f55d76f6", __vue__options__)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],34:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":3}],34:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -13100,9 +13136,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a1a14a00", __vue__options__)
+    hotAPI.createRecord("data-v-6eaf34ec", __vue__options__)
   } else {
-    hotAPI.reload("data-v-a1a14a00", __vue__options__)
+    hotAPI.reload("data-v-6eaf34ec", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3}],35:[function(require,module,exports){
@@ -13160,9 +13196,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a512165a", __vue__options__)
+    hotAPI.createRecord("data-v-d7400e82", __vue__options__)
   } else {
-    hotAPI.reload("data-v-a512165a", __vue__options__)
+    hotAPI.reload("data-v-d7400e82", __vue__options__)
   }
 })()}
 },{"./../components/numpad.vue":7,"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}],36:[function(require,module,exports){
@@ -13207,9 +13243,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1b98f6a4", __vue__options__)
+    hotAPI.createRecord("data-v-3872e942", __vue__options__)
   } else {
-    hotAPI.reload("data-v-1b98f6a4", __vue__options__)
+    hotAPI.reload("data-v-3872e942", __vue__options__)
   }
 })()}
 },{"vue":5,"vue-hot-reload-api":3,"vueify/lib/insert-css":6}]},{},[8])(8)
