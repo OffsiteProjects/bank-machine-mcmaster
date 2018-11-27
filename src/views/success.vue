@@ -4,7 +4,7 @@
 
 <template>
 <div class="row">
-  <div class="text-center">
+  <div class="column col-lg-12 centered">
     <h1 class="big-title">{{ this.$route.params.Message }}</h1>
     <h2 class="big-title">{{ this.$route.params.balance }}</h2>
     <div class="column col-lg-12">
