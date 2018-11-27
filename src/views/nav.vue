@@ -42,7 +42,7 @@ module.exports = {
       noBackRoutes: [
         "/","/#/" , "/logout", "/pin", "/verifyDeposit", "/verifyWithdraw",
         "/verifyTransfer","/verifyEtransfer","/success", "/prettyReceipt",
-        "/success"
+        "/success", "/main-menu", "/receipt"
       ],
       isHome: this.$router.currentRoute.path == "/",
       isLoggedIn: false
@@ -52,6 +52,13 @@ module.exports = {
     '$route' (to, from) {
       this.isHome = this.noBackRoutes.indexOf(to.path) !== -1
       if (to.path == '/logout') this.isLoggedIn = false
+      if (to.path == '/verifyWithdraw') this.isLoggedIn = false
+      if (to.path == '/success') this.isLoggedIn = false
+      if (to.path == '/receipt') this.isLoggedIn = false
+      if (to.path == '/prettyReceipt') this.isLoggedIn = false
+      if (to.path == '/insertCash') this.isLoggedIn = false
+      if (to.path == '/verifyDeposit') this.isLoggedIn = false
+      if (to.path == '/verifyEtransfer') this.isLoggedIn = false
       if (to.path == '/main-menu') this.isLoggedIn = true
     }
   },

@@ -1,14 +1,12 @@
 <style>
-  .red {
-    color: red;
-  }
+
 </style>
 
 <template>
   <div class="row">
     <div class="column col-lg-12 centered">
-    <h1 class="red">Select Account to view</h1>
-
+    <h1 class="big-title">Transaction History</h1>
+	<h2 class="sub-title">Select Account to view</h2>
     <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Chequing Account - 123456 - $48.99</button>
 
     <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Savings Account - 135791 - $1,548.78</button>
@@ -25,20 +23,31 @@
 </template>
 
 <script>
+var currentBox='';
+var savedValue='';
 module.exports = {
+
   methods: {
     submit () {
-      this.$router.push('/accountHistory') 
+      if(currentBox !== ''){
+        savedValue=currentBox;
+        currentBox='';
+        this.$router.push({name: 'accountHistory', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1)}})
+      }
     },
     selectBox: function (event) {
       if (event) {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = '#007bff';
         }
         
         event.target.style.backgroundColor = '#00bfff';
+        event.target.style.borderColor = '#00bfff';
+
+        currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
         var j;

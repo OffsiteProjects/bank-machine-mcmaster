@@ -30,7 +30,7 @@ module.exports = {
       if(currentBox !== ''){
         savedValue=currentBox;
         currentBox='';
-        this.$router.push({name: 'insertCash', params: { account: savedValue.slice(0,savedValue.lastIndexOf("-")-1) }}) 
+        this.$router.push({name: 'insertCash', params: { account: savedValue }}) 
       }
       
     },
@@ -39,12 +39,12 @@ module.exports = {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#007bff';
-			all[i].style.borderColor = '#007bff';
+          all[i].style.backgroundColor = '#007bff';
+			    all[i].style.borderColor = '#007bff';
         }
         
         event.target.style.backgroundColor = '#00bfff';
-		event.target.style.borderColor = '#00bfff';
+		    event.target.style.borderColor = '#00bfff';
         currentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");

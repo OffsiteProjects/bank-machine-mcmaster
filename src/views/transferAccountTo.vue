@@ -1,19 +1,12 @@
 <style>
-  .red {
-    color: red;
-  }
-  h2{
-    margin-left: 4%;
-  }
+
 </style>
 
 <template>
   <div class="row">
     <div class="column col-lg-12 centered">
-    <h1 class="red">Select Accounts</h1>
+    <h1 class="big-title">Please choose the Account the money will go to</h1>
     
-    <h2 class="leftAlign">To: </h2>
-
     <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Chequing Account - 123456 - $48.99</button>
 
     <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Savings Account - 135791 - $1,548.78</button>
@@ -39,7 +32,7 @@ module.exports = {
         toSavedValue=toCurrentBox;
         toCurrentBox='';
 
-        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue.slice(0,toSavedValue.lastIndexOf("-")-1) }}) 
+        this.$router.push({name: 'transferAmount', params: {fromAccount: this.$route.params.fromAccount, toAccount: toSavedValue }}) 
       }
       
     },
@@ -48,10 +41,12 @@ module.exports = {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = '#007bff';
         }
         
         event.target.style.backgroundColor = '#00bfff';
+		event.target.style.borderColor = '#00bfff';
         toCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");
@@ -61,6 +56,15 @@ module.exports = {
         }
       }
 
+    }
+  },
+  mounted(){
+    var all = document.getElementsByClassName("accountBox");
+    var i;
+    for(i=0;i<all.length; i++){
+      if(this.$route.params.fromAccount === all[i].innerHTML){
+        all[i].style.display='none';
+      }
     }
   },
   data () {

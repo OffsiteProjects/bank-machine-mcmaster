@@ -5,9 +5,9 @@
 </style>
 
 <template>
-  <div>
-    <h1 class="red">{{msg}}</h1>
-
+  <div class="text-center">
+    <h1 class="big-title">Withdraw Cash</h1>
+	<h2 class="sub-title">{{msg}}</h2>
     <div class="row">
       <div class="col-sm-8">
         <num-pad pin-format=false ref="pad"></num-pad>

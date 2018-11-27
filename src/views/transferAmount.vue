@@ -1,11 +1,10 @@
 <style>
-  .red {
-    color: red;
-  }
+
 </style>
 
 <template><div>
-  <h1 class="red">How Much</h1>
+  <h1 class="big-title">Transfer Between Accounts</h1>
+  <h2 class="sub-title">How much money would you like to transfer from {{this.$route.params.fromAccount.slice(0,this.$route.params.fromAccount.lastIndexOf("-")-1)}} to {{this.$route.params.toAccount.slice(0,this.$route.params.toAccount.lastIndexOf("-")-1)}}?</h2>
     <div class="row">
       <div class="col-sm-8">
         <num-pad pin-format=false ref="pad"></num-pad>

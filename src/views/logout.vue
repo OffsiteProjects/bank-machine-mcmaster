@@ -4,8 +4,13 @@
 
 <template>
   <div>
-    <h1>Thank you for banking with us!</h1>
-    <h2>Please don't forget your card below.</h2>
+    <h1 class="big-title">Thank you for banking with us!</h1>
+    <h2 class="sub-title">Please don't forget your card below.</h2>
+	<div class="row text-center">
+      <div class="col-sm">
+        <img src="assets/card-out.jpeg"/>
+      </div>
+    </div>
   </div>
 </template>
 

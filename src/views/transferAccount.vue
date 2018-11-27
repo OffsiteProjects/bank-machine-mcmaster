@@ -1,18 +1,13 @@
 <style>
-  .red {
-    color: red;
-  }
-  h2{
-    margin-left: 4%;
-  }
+
 </style>
 
 <template>
   <div class="row">
     <div class="column col-lg-12 centered">
-    <h1 class="red">Select Accounts</h1>
+    <h1 class="big-title">Transfer Between Accounts</h1>
     
-    <h2 class="leftAlign">From: </h2>
+    <h2 class="sub-title">Please choose the Account the money will come from</h2>
     
     <button v-on:click="selectBox" class="physical-btn btn-primary accountBox">Chequing Account - 123456 - $48.99</button>
 
@@ -39,7 +34,7 @@ module.exports = {
         fromSavedValue=fromCurrentBox;
         fromCurrentBox='';
 
-        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue.slice(0,fromSavedValue.lastIndexOf("-")-1)}}) 
+        this.$router.push({name: 'transferAccountTo', params: {fromAccount: fromSavedValue}}) 
       }
       
     },
@@ -48,10 +43,12 @@ module.exports = {
         var all = document.getElementsByClassName("accountBox");
         var i;
         for (i = 0; i < all.length; i++) {
-            all[i].style.backgroundColor = '#bfbfbf';
+            all[i].style.backgroundColor = '#007bff';
+			all[i].style.borderColor = '#007bff';
         }
         
         event.target.style.backgroundColor = '#00bfff';
+		event.target.style.borderColor = '#00bfff';
         fromCurrentBox=event.target.innerHTML;
 
         var displayCheck = document.getElementsByClassName("hideCheck");

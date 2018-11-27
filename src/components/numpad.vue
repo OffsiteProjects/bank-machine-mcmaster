@@ -7,6 +7,7 @@
     width: 100px;
     height: 100px;
     font-size: 36px;
+	font-weight: bold;
     margin: 10px;
   }
   .numpad input {
@@ -14,6 +15,7 @@
     height: 60px;
     margin: 0px;
     font-size: 36px;
+	font-weight: bold;
     text-align: right; 
     pointer-events: none;
   }
