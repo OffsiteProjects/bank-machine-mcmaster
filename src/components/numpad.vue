@@ -43,11 +43,42 @@ module.exports = {
       input: ''
     }
   },
-  props: ['pin-format'],
+  props: ['pin-format', 'homepage'],
   methods: {
     formatCents (cents) {
       if (this.pinFormat==='true'){
         return (new Array(cents.length)).fill('•').join('')
+      }
+      else if (this.homepage==='true'){
+        var lengthString= cents.length;
+        var leftOver=lengthString%4;
+        if(leftOver==1) {
+          leftOver=3
+        }
+        else if(leftOver==3) {
+          leftOver=1
+        }
+        var i;
+        var addOn='';
+        for(i=0; i<leftOver; i++){
+          addOn=addOn+'X';
+        }
+        addOn.slice(0,addOn.length-2);
+        if(cents.length==0){
+          return 'XXXX-XXXX-XXXX';
+        } 
+
+        if (cents.length <= 4) {
+          return String(cents) + addOn+'-XXXX-XXXX';
+        } 
+
+        else if (cents.length <= 8) {
+          return cents.slice(0,4)+'-'+cents.slice(4,8-leftOver)+ addOn + '-XXXX';
+        } 
+
+        else {
+          return cents.slice(0,4) + '-'+cents.slice(4,8) + '-' + cents.slice(8,12-leftOver)+ addOn;
+        }
       }
       else if (cents.length === 0) {
         return '0.00'
