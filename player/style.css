@@ -1,0 +1,609 @@
+.desktoplandscape {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 1);
+}
+a {
+  text-decoration: none;
+}
+div {
+  -webkit-text-size-adjust: none;
+}
+div {
+  -webkit-text-size-adjust: none;
+}
+.desktoplandscape .player {
+  background-color: rgba(255, 255, 255, 0);
+  top: 40px;
+  height: 476px;
+  width: 768px;
+  position: absolute;
+  margin: 0;
+  left: 40px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  background: black;
+  user-select: none;
+}
+.desktoplandscape .player .samplevideo {
+  background-color: rgba(255, 255, 255, 0);
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .bigplay {
+  background-color: rgba(255, 255, 255, 0);
+  top: 184px;
+  height: 77px;
+  width: 77px;
+  position: absolute;
+  margin: 0;
+  left: 335px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .bigplay .oval {
+  background-color: rgba(255, 255, 255, 0);
+  top: 1px;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  margin: 0;
+  left: 1px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .bigplay .triangle1 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 26px;
+  height: 50px;
+  width: 45px;
+  position: absolute;
+  margin: 0;
+  left: 32px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls {
+  background-color: rgba(255, 255, 255, 0);
+  bottom: 15px;
+  height: 30px;
+  left: 10px;
+  right: 10px;
+  position: absolute;
+  margin: 0;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .rectangle1 {
+  background-color: rgba(0, 0, 0, 1);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  border-radius: 4px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .triangle1 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 7px;
+  height: 17px;
+  width: 16px;
+  position: absolute;
+  margin: 0;
+  left: 13px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .speakermid {
+  background-color: rgba(255, 255, 255, 0);
+  top: 6px;
+  height: 20px;
+  width: 15px;
+  position: absolute;
+  margin: 0;
+  left: 675px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .settingscog {
+  background-color: rgba(255, 255, 255, 0);
+  top: 5px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  margin: 0;
+  left: 698px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .fullscreen {
+  background-color: rgba(255, 255, 255, 0);
+  top: 11px;
+  height: 11px;
+  width: 10px;
+  position: absolute;
+  margin: 0;
+  left: 728px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .hd {
+  background-color: rgba(255, 255, 255, 0);
+  top: 0;
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  margin: 0;
+  left: 710px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .scrub {
+  background-color: rgba(255, 255, 255, 0);
+  top: 6px;
+  height: 20px;
+  width: 600px;
+  position: absolute;
+  margin: 0;
+  left: 34px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .scrub .scrubborder {
+  background-color: rgba(255, 255, 255, 0);
+  top: 0;
+  height: 18px;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(93, 93, 93, 1);
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .scrub .heatmap {
+  background-color: rgba(255, 255, 255, 0);
+  top: 2px;
+  height: 17px;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  left: 2px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  opacity: 0.83;
+}
+.desktoplandscape .player .controls .scrub .buffer {
+  background-color: rgba(0, 0, 0, 1);
+  top: 1px;
+  height: 18px;
+  width: 30%;
+  position: absolute;
+  margin: 0;
+  left: 2px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  opacity: 0.5;
+}
+.desktoplandscape .player .controls .scrub .played {
+  background-color: rgba(73, 143, 225, 1);
+  top: 3px;
+  height: 14px;
+  width: 10%;
+  position: absolute;
+  margin: 0;
+  left: 3px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .cc {
+  background-color: rgba(255, 255, 255, 0);
+  top: 7px;
+  height: 18px;
+  width: 24px;
+  position: absolute;
+  margin: 0;
+  right: 79px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .player .controls .cc .rectangle4 {
+  background-color: rgba(73, 143, 225, 1);
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  border-radius: 4px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .controls .cc .cc1 {
+  background-color: rgba(255, 255, 255, 0);
+  top: -3px;
+  height: auto;
+  width: auto;
+  position: absolute;
+  margin: 0;
+  left: 4px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+.desktoplandscape .player .speed {
+  background-color: rgba(255, 255, 255, 0);
+  top: 11px;
+  height: auto;
+  width: auto;
+  position: absolute;
+  margin: 0;
+  left: 650px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  opacity: 0.55;
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 36px;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.desktoplandscape .player .settings {
+  background-color: rgba(255, 255, 255, 0);
+  bottom: 35px;
+  height: 187px;
+  width: 327px;
+  position: absolute;
+  margin: 0;
+  right: 30px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .settings .triangle {
+  background-color: rgba(255, 255, 255, 0);
+  top: 150px;
+  height: 29px;
+  width: 40px;
+  position: absolute;
+  margin: 0;
+  left: 287px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .settings .rectangle2 {
+  background-color: rgba(53, 53, 53, 1);
+  top: 0;
+  height: 168px;
+  width: 327px;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .settings .english {
+  background-color: rgba(255, 255, 255, 0);
+  top: 5px;
+  height: auto;
+  width: 96px;
+  position: absolute;
+  margin: 0;
+  left: -0px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 22px;
+  color: rgba(73, 143, 225, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+.desktoplandscape .player .settings .english .span1 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+}
+.desktoplandscape .player .settings .english .span2 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+  color: rgba(255, 255, 255, 1);
+}
+.desktoplandscape .player .settings .english1 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 6px;
+  height: auto;
+  width: 96px;
+  position: absolute;
+  margin: 0;
+  left: 231px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 22px;
+  color: rgba(73, 143, 225, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+.desktoplandscape .player .settings .english1 .span1 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+}
+.desktoplandscape .player .settings .english1 .span2 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+  color: rgba(255, 255, 255, 1);
+}
+.desktoplandscape .player .settings .english2 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 6px;
+  height: auto;
+  width: 96px;
+  position: absolute;
+  margin: 0;
+  left: 110px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+.desktoplandscape .player .settings .english2 .span1 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+}
+.desktoplandscape .player .settings .english2 .span2 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+  color: rgba(73, 143, 225, 1);
+}
+.desktoplandscape .player .settings .english2 .span3 {
+  font-family: ".SFNSText", Helvetica, Arial, serif;
+}
+.desktoplandscape .player .settings .rectangle3 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 9px;
+  height: 148px;
+  width: 13px;
+  position: absolute;
+  margin: 0;
+  left: 87px;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 1);
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .player .settings .oval2 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 27px;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  margin: 0;
+  left: 87px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .rectangle {
+  background-color: rgba(255, 255, 255, 0);
+  top: 80px;
+  height: 950px;
+  width: 458px;
+  position: absolute;
+  margin: 0;
+  left: 1623px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 1);
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .group7 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 96px;
+  height: 1720px;
+  width: 507px;
+  position: absolute;
+  margin: 0;
+  left: 1553px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .group7 .transcript {
+  background-color: rgba(255, 255, 255, 0);
+  top: 0;
+  height: auto;
+  width: auto;
+  position: absolute;
+  margin: 0;
+  left: 81px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 36px;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.volumebar .scrollbar {
+  right: 68px;
+  bottom: 50px;
+  height: 155px;
+}
+.fakeCaptions {
+  background: black;
+  padding: 5px;
+  color: white;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  left: 290px;
+  bottom: 60px;
+}
+.desktoplandscape .scrollbar {
+  background-color: rgba(0, 0, 0, 1);
+  width: 13px;
+  position: absolute;
+  margin: 0;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 1);
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .scrollbar .handle {
+  background-color: rgba(255, 255, 255, 0);
+  top: 0px;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  margin: 0;
+  left: 0px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  cursor: pointer;
+}
+.desktoplandscape .group7 .rectangle31 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 1023px;
+  height: 695px;
+  width: 13px;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 1);
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .group7 .oval21 {
+  background-color: rgba(255, 255, 255, 0);
+  top: 1087px;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  margin: 0;
+  left: 0;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.desktoplandscape .narratorloremip {
+  background-color: rgba(255, 255, 255, 0);
+  top: 194px;
+  height: auto;
+  width: 372px;
+  position: absolute;
+  margin: 0;
+  left: 1636px;
+  -ms-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  font-family: "San Francisco", Helvetica, Arial, serif;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 1);
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.settings span {
+  cursor: pointer;
+}
+.settings span:hover {
+  color: gray;
+}
+.settings span.active {
+  color: rgba(73, 143, 225, 1);
+}
+
+body {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  border: none;
+  position: absolute;
+}
+.transcript {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 400px;
+  border: solid gray 1px;
+  height: 476px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.transcript .topbar {
+  background: rgb(179, 179, 179);
+  padding: 8px;
+  font-size: 24px;
+}
+.transcript .body {
+  padding: 8px;
+  overflow-y: scroll;
+  height: 416px;
+}
+.transcript .body span {
+  display: none;
+  margin-bottom: 16px;
+}
