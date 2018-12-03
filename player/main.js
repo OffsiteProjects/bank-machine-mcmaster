@@ -28,6 +28,12 @@ function playORPause () {
   playing = !playing
 }
 
+function updatePlayBar () {
+  const x = (videoElement.currentTime / videoElement.duration) * parseInt(window.getComputedStyle(scrubBar).getPropertyValue('width'))
+  playBar.style.width = x + 'px'
+}
+setInterval(updatePlayBar, 500)
+
 document.querySelector('.bigplay').addEventListener('click', playORPause)
 document.querySelector('#playBtn').addEventListener('click', playORPause)
 document.querySelector('video').addEventListener('click', playORPause)
