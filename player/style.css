@@ -15,6 +15,67 @@ div {
 div {
   -webkit-text-size-adjust: none;
 }
+.commentssection{
+	position: absolute;
+	top: 550px;
+	left: 40px;
+	height: 600px;
+	width: 768px;
+	border: 1px solid #ccc;
+	overflow-y: scroll;
+}
+.suggestedvideos{
+	position: absolute;
+	top: 550px;
+	left: 840px;
+	height: 600px;
+	width: 400px;
+	border: 1px solid #ccc;
+	overflow-y: scroll;
+}
+.suggested{
+	width: 330px;
+	padding: 25px 25px 0 25px;
+	opacity: 0.8;
+}
+.suggested:hover{
+	opacity: 1;
+}
+.comment{
+	margin: 10px 50px 0 50px;
+}
+.commentbox{
+	width: 555px;
+	height: 80px;
+	vertical-align: top;
+	resize: none;
+	margin-left: 5px;
+}
+.comment td{
+	vertical-align: top;
+	
+}
+.commentbutton{
+	padding: 8px 15px 8px 15px;
+	margin: 10px 5px 10px 0;
+	background-color: rgba(74, 144, 226, 0.75);
+	border-radius: 5px;
+	border-style: none;
+	font-weight: bold;
+	color: white;
+}
+.commentbutton:hover{
+	background-color: rgba(74, 144, 226, 1);
+}
+.profilepic{
+	width: 60px;
+	height: 60px;
+	padding: 10px 10px 0 10px;
+}
+.bigpicture{
+	width: 100px;
+	padding: 15px;
+}
 .desktoplandscape .player {
   background-color: rgba(255, 255, 255, 0);
   top: 40px;
@@ -217,7 +278,7 @@ div {
   -ms-transform: rotate(0);
   -webkit-transform: rotate(0);
   transform: rotate(0);
-  opacity: 0.5;
+  opacity: 0.35;
 }
 .desktoplandscape .player .controls .scrub .played {
   background-color: rgba(73, 143, 225, 1);
@@ -583,13 +644,14 @@ body {
   padding: 0;
   border: none;
   position: absolute;
+  font-family: sans-serif;
 }
 .transcript {
   position: absolute;
   top: 40px;
-  right: 40px;
+  left: 840px;
   width: 400px;
-  border: solid gray 1px;
+  border: 1px solid #ccc;
   height: 476px;
   font-family: Arial, Helvetica, sans-serif;
 }
