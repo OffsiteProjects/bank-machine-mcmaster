@@ -33,17 +33,27 @@ div {
 	border: 1px solid #ccc;
 	overflow-y: scroll;
 }
+.suggested{
+	width: 330px;
+	padding: 25px 25px 0 25px;
+	opacity: 0.8;
+}
+.suggested:hover{
+	opacity: 1;
+}
 .comment{
-	margin: 10px 25px 0 25px;
+	margin: 10px 50px 0 50px;
 }
 .commentbox{
-	width: 600px;
+	width: 555px;
 	height: 80px;
 	vertical-align: top;
 	resize: none;
+	margin-left: 5px;
 }
 .comment td{
 	vertical-align: top;
+	
 }
 .commentbutton{
 	padding: 8px 15px 8px 15px;
@@ -64,7 +74,7 @@ div {
 }
 .bigpicture{
 	width: 100px;
-	padding: 5px;
+	padding: 15px;
 }
 .desktoplandscape .player {
   background-color: rgba(255, 255, 255, 0);
